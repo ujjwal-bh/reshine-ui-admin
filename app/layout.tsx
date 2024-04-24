@@ -1,8 +1,12 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
  
 import { cn } from "@/lib/utils"
+import Header from "@/components/core/Header";
+import { useState } from "react";
+import Sidebar from "@/components/core/Sidebar";
  
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +30,10 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
-      >{children}</body>
+      >
+        <Header/>
+        {children}
+        </body>
     </html>
   );
 }
