@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // components
 import { Button } from "@/components/ui/button";
-import InputWithLabel from "@/components/ui/inputWithLabel";
+import {InputWithLabel} from "@/components/ui/input";
 import { FaEnvelope, FaEyeSlash, FaLock } from "react-icons/fa";
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
                     <InputWithLabel LeftIcon={FaEnvelope} type="email" name="email" label="Email Address" autoComplete="email" placeholder="someone@gmail.com"/>
                     <InputWithLabel LeftIcon={FaLock} RightIcon={FaEyeSlash} type={showPass ? "text" : "password"} autoComplete="current-password" name="password" label="Password" placeholder="✱ ✱ ✱ ✱ ✱ ✱ ✱ ✱" rightIconClasses={`cursor-pointer ${showPass ? 'text-primary' : 'text-gray-400'}`} rightIconClick={() => setShowPass(prev=> !prev)}/>
                     <div className="mt-8">
-                        <Button className="w-full" type="submit" onClick={handleSubmit}>Login</Button>
+                        <Button size={"lg"} className="w-full" type="submit" onClick={handleSubmit}>Login</Button>
                     </div>
                     <div className="w-full text-center"><span className="text-primary">forgot password? </span> contact your administrator</div>
                 </div>

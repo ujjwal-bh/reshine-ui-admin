@@ -31,6 +31,15 @@ const config = {
         primaryTransparent: {
           DEFAULT: "var(--primary-transparent)"
         },
+        error: {
+          DEFAULT: "var(--error)"
+        },
+        errorTransparent: {
+          DEFAULT: "var(--error-transparent)"
+        },
+        success: {
+          DEFAULT: "var(--success)"
+        },
         secondary: {
           DEFAULT: "var(--secondary))",
           foreground: "var(--secondary-foreground)",

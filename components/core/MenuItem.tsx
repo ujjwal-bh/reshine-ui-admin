@@ -16,8 +16,8 @@ export default function MenuItem({ Icon, children, path, ...rest }: IProps) {
     return (
       <Link href={path}>
         <div
-          className={`flex gap-4 items-center p-4 pl-[5rem] text-lg font-medium text-primary hover:bg-primaryTransparent cursor-pointer ${
-            pathName === path ? "bg-primaryTransparent" : ""
+          className={`flex gap-4 items-center p-4 pl-[5rem] text-lg hover:bg-primaryTransparent cursor-pointer ${
+            pathName === path ? "bg-primaryTransparent text-primary" : ""
           }`}
           {...rest}
         >
@@ -29,7 +29,7 @@ export default function MenuItem({ Icon, children, path, ...rest }: IProps) {
   } else {
     return (
       <div
-        className={`flex gap-4 items-center p-4 pl-[5rem] text-lg font-medium text-primary hover:bg-primaryTransparent cursor-pointer`}
+        className={`flex gap-4 items-center p-4 pl-[5rem] text-lg hover:bg-primaryTransparent cursor-pointer`}
         {...rest}
       >
         <Icon />

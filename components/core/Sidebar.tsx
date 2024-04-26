@@ -5,6 +5,7 @@ import {
   FaCartArrowDown,
   FaExclamationTriangle,
   FaHome,
+  FaMoneyBill,
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
@@ -31,6 +32,9 @@ export default function Sidebar() {
       </MenuItem>
       <MenuItem Icon={FaCartArrowDown} path="/orders">
         Orders
+      </MenuItem>
+      <MenuItem Icon={FaMoneyBill} path="/payment-details">
+        Payment details
       </MenuItem>
       <MenuItem Icon={FaShirt} path="/clothes">
         Clothes

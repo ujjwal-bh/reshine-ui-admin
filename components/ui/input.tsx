@@ -1,9 +1,20 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+export interface InputWithIconProps extends InputProps {
+  LeftIcon?: React.FC;
+  RightIcon?: React.FC;
+  rightIconClasses?: string;
+  rightIconClick?: () => void;
+}
+
+export interface InputWithLabelProps extends InputWithIconProps {
+  label: string;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
@@ -17,9 +28,81 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
-Input.displayName = "Input"
+);
+Input.displayName = "Input";
 
-export { Input }
+const InputWithIcon = React.forwardRef<HTMLInputElement, InputWithIconProps>(
+  ({ className, type, LeftIcon, RightIcon, rightIconClasses, rightIconClick, ...props }, ref) => {
+    return (
+      <div className="relative">
+        {LeftIcon && (
+          <div className="absolute top-[50%] translate-y-[-50%] left-2 text-gray-400">
+            <LeftIcon />
+          </div>
+        )}
+        <Input type={type} ref={ref} {...props} className={`${className} ${LeftIcon ? "pl-8" : ""}`}/>
+        {RightIcon && (
+          <div
+            className={`absolute top-[50%] translate-y-[-50%] right-4 text-gray-400 ${
+              rightIconClasses ? rightIconClasses : ""
+            } `}
+            onClick={rightIconClick}
+          >
+            <RightIcon />
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
+  (
+    {
+      className,
+      LeftIcon,
+      RightIcon,
+      label,
+      name,
+      type,
+      rightIconClasses,
+      rightIconClick,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div className="relative">
+        <label
+          htmlFor={name}
+          className="absolute top-1.5 left-12 text-md text-gray-500 font-medium"
+        >
+          {label}
+        </label>
+        <div className="absolute top-[62.5%] translate-y-[-50%] left-3 text-primary text-2xl ">
+          {LeftIcon && <LeftIcon />}
+        </div>
+        <Input
+          name={name}
+          type={type} ref={ref} 
+          className="px-12 pt-10 pb-6 text-xl placeholder:text-gray-300 placeholder:font-medium"
+          {...props}
+        />
+        {RightIcon && (
+          <div
+            className={`absolute top-[50%] translate-y-[-50%] right-6 text-2xl ${
+              rightIconClasses ? rightIconClasses : ""
+            } `}
+            onClick={rightIconClick}
+          >
+            <RightIcon />
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+export { Input, InputWithIcon, InputWithLabel };
