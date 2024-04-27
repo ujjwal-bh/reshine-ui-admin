@@ -18,11 +18,13 @@ interface IProps {
   options: IOptionProps[];
   placeholder: string;
   value?: string;
+  Icon?: React.FC;
 }
 export default function SelectWithSearch({
   options,
   placeholder,
   value,
+  Icon,
 }: IProps) {
   const [val, setVal] = useState(value);
 
@@ -41,10 +43,15 @@ export default function SelectWithSearch({
   };
   return (
     <Select value={val} onValueChange={setVal}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className={`w-full ${Icon ? "px-8 relative": ""}`}>
+        {Icon && (
+          <div className="absolute top-[50%] translate-y-[-50%] left-2">
+            <Icon />
+          </div>
+        )}
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className="">
+      <SelectContent className="bg-background">
         <InputWithIcon
           RightIcon={FaSearch}
           placeholder="search"
