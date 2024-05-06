@@ -12,6 +12,8 @@ export default function SelectWithSearch() {
         console.log(val);
     }
   return (
-    <Select className='w-full' options={options} instanceId={useId()} value={{ value: "location1", label: "location1" }} onChange={e => handleChange({value: e?.label|| "", label: e?.label || ""})}/>
+    // <Select className='w-full' options={options} instanceId={useId()} value={{ value: "location1", label: "location1" }} onChange={e => handleChange({value: e?.label|| "", label: e?.label || ""})} placeholder="Select Icon"/>
+    <Select className='w-full' options={options} instanceId={useId()} placeholder="Select Icon"/>
+
   )
 }

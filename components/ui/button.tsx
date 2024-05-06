@@ -1,23 +1,40 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+import { cn } from "@/lib/utils";
+import Alert from "./Alert";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default:
+          "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-background ",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 ",
         outline:
-          "border border-input border-primary text-primary bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input border-primary text-primary bg-background hover:bg-accent hover:text-primary ",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 ",
+        ghost: "hover:bg-accent hover:text-accent-foreground ",
+        link: "text-primary underline-offset-4 hover:underline ",
+        error: "bg-error text-background  hover:text-background ",
+        errorOutline:
+          "border border-input border-error text-error hover:text-error ",
       },
       size: {
         default: "h-12 px-4 py-2",
@@ -31,26 +48,57 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
-export { Button, buttonVariants }
+interface IProps
+  extends React.PropsWithChildren,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {
+  confirmClick?: () => void;
+  cancelClick?: () => void;
+  size?: "default" | "sm" | "lg" | "icon" | null | undefined;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | "error"
+    | "errorOutline"
+    | null
+    | undefined;
+}
+
+const ButtonWithPopup = ({
+  children,
+  confirmClick,
+  cancelClick,
+  ...props
+}: IProps) => {
+  return (
+    <Alert {...{ confirmClick, cancelClick, ...props }}>
+      {children}
+    </Alert>
+  );
+};
+export { Button, buttonVariants, ButtonWithPopup };

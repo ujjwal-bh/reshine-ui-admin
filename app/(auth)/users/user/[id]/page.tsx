@@ -16,7 +16,7 @@ export default function EditUser() {
            <Back/>
         <SectionTitle>Edit User</SectionTitle>
         </div>
-      <form className="w-[50%] flex flex-col gap-4">
+      <form className="w-[50%] flex flex-col gap-4 lg:w-full">
         <div className="flex flex-col gap-2">
           <label htmlFor="name">Name</label>
           <InputWithIcon

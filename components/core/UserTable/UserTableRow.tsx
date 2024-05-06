@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../../ui/button'
+import { Button, ButtonWithPopup } from '../../ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -18,7 +18,7 @@ export default function UserTableRow() {
     <TableCell>8105822779</TableCell>
     <TableCell>Male</TableCell>
     <TableCell className="flex gap-2 justify-center">
-      <Button size={"sm"} variant={"outline"} className="border-error text-error w-full">Delete</Button>
+    <ButtonWithPopup className="w-full border border-error text-error rounded-md">Delete</ButtonWithPopup>
       <Link href={"/users/user/1234"} className='w-full'>
       <Button size={"sm"} className="w-full">Edit</Button>
       </Link>

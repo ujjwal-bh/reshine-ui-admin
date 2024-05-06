@@ -15,9 +15,9 @@ import { FaSearch } from "react-icons/fa";
 export default function Users() {
   return (
     <MainWarapper>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between gap-2 items-center lg:flex-col lg:items-start">
         <SectionTitle>Users</SectionTitle>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <InputWithIcon
             RightIcon={FaSearch}
             placeholder="search user by name . . ."

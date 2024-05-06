@@ -18,7 +18,7 @@ export default function AddDeliveryUser() {
            <Back/>
         <SectionTitle>Add Delivery Person</SectionTitle>
         </div>
-      <form className="w-[50%] flex flex-col gap-4">
+      <form className="w-[50%] flex flex-col gap-4 lg:w-full">
         <div className="flex flex-col gap-2">
           <label htmlFor="name">Name</label>
           <InputWithIcon
@@ -30,6 +30,8 @@ export default function AddDeliveryUser() {
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email Address</label>
           <InputWithIcon
+            type="email"
+            autoComplete="email"
             placeholder="someone@gmail.com"
             LeftIcon={FaEnvelope}
           />
@@ -38,6 +40,7 @@ export default function AddDeliveryUser() {
           <label htmlFor="name">Password</label>
           <InputWithIcon
             type={`${showPass ? "text": "password"}`}
+            autoComplete="new-password"
             placeholder="* * * * * * * *"
             LeftIcon={FaLock}
             RightIcon={FaEyeSlash}
@@ -49,6 +52,7 @@ export default function AddDeliveryUser() {
           <label htmlFor="conformPassword">Confirm Password</label>
           <InputWithIcon
             type={`${showPass ? "text": "password"}`}
+            autoComplete="new-password"
             placeholder="* * * * * * * *"
             LeftIcon={FaLock}
             RightIcon={FaEyeSlash}

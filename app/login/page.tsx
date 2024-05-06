@@ -20,7 +20,7 @@ export default function Home() {
     }
   return (
     <main className="flex items-center justify-center h-[90vh]">
-        <div className="flex flex-col min-w-72 w-[40%] bg-primaryTransparent rounded-md p-8">
+        <div className="flex flex-col min-w-72 w-[40%] bg-primaryTransparent rounded-md p-8 lg:w-[90%]">
             <div className="text-3xl text-primary font-black text-center">
                 Login to Admin Dashboard
             </div>

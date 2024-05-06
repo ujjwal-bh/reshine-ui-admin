@@ -23,32 +23,15 @@ export default function EditOrder() {
         </div>
         <h1 className="text-gray-400">Order ID: #12345</h1>
       </div>
-      <div className="flex w-full gap-[5%]">
-        <form className="w-[60%] flex flex-col gap-4">
-          {/* <SelectWithSearch
-            placeholder="Select Location"
-            options={[
-              { value: "location1", label: "location1" },
-              { value: "location2", label: "Location2" },
-              { value: "ation", label: "ation" },
-            ]}
-            value={"location2"}
-            Icon={FaLocationArrow}
-          /> */}
-
+      <div className="flex w-full gap-[5%] lg:flex-col lg:gap-8">
+        <form className="w-[60%] flex flex-col gap-4 lg:w-full">
           <SelectWithSearch />
-
           <div className="flex gap-4">
-            {/* <SelectWithSearch
-              placeholder="Select User"
-              options={[]}
-              Icon={FaUser}
-            /> */}
             <SelectWithSearch />
             <DatePicker />
           </div>
-          <div className="flex gap-4 mt-4">
-            <div className="flex w-[50%] flex-col gap-2">
+          <div className="flex gap-4 mt-4 lg:flex-col">
+            <div className="flex w-[50%] flex-col gap-2 lg:w-full">
               <h1>Select Service Type</h1>
               <ServiceType
                 options={[
@@ -59,7 +42,7 @@ export default function EditOrder() {
                 active="Regular"
               />
             </div>
-            <div className="flex w-[50%] flex-col gap-2">
+            <div className="flex w-[50%] flex-col gap-2 lg:w-full">
               <h1>Select Wash Type</h1>
               <ServiceType
                 options={[
@@ -82,18 +65,10 @@ export default function EditOrder() {
             <div className="mt-4">
               <AddCloth />
             </div>
-            <div className="flex gap-2 mt-8">
-              <Button
-                className="w-full border-error text-error"
-                variant={"outline"}
-              >
-                Cancel
-              </Button>
-              <Button className="w-full">Edit Order</Button>
-            </div>
+            
           </div>
         </form>
-        <div className="w-[35%]">
+        <div className="w-[35%] lg:w-full">
           <SectionTitle>Order details</SectionTitle>
           <div className="flex mt-4 gap-x-2 gap-y-8 flex-wrap">
             {[1, 2, 3].map((item, index) => {
@@ -127,6 +102,15 @@ export default function EditOrder() {
           </Card>
         </div>
       </div>
+      <div className="flex gap-2 mt-8">
+              <Button
+                className="min-w-[15rem] border-error text-error"
+                variant={"outline"}
+              >
+                Cancel
+              </Button>
+              <Button className="min-w-[15rem]">Edit Order</Button>
+            </div>
     </MainWarapper>
   );
 }

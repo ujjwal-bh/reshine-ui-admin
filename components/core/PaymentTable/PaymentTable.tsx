@@ -7,23 +7,24 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
-import IssueTableRow from './IssueTableRow';
+import PaymentTableRow from './PaymentTableRow';
 
-export default function IssueTable() {
+export default function PaymentTable() {
   return (
     <Table className='border-2 border-gray-100'>
-    <TableCaption>A list of Issues.</TableCaption>
+    <TableCaption>A list of Payments.</TableCaption>
     <TableHeader>
       <TableRow className="bg-primaryTransparent">
-        <TableHead className='w-[100px]'>S.N.</TableHead>
         <TableHead>User</TableHead>
-        <TableHead>Issue Type</TableHead>
-        <TableHead className='max-w-[400px] text-center'>Description</TableHead>
-        <TableHead className='text-center'>Issue Status</TableHead>
+        <TableHead>Payment Id</TableHead>
+        <TableHead>Payment Date</TableHead>
+        <TableHead>Order Id</TableHead>
+        <TableHead>Amount</TableHead>
+        <TableHead className="text-center w-[200px]">Details</TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      <IssueTableRow/>
+      <PaymentTableRow/>
     </TableBody>
   </Table>
   )

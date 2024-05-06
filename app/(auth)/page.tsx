@@ -8,7 +8,7 @@ import { orderDetailDummyData } from "@/lib/utils";
 export default function Home() {
   return (
     <MainWarapper>
-      <div className="flex gap-4">
+      <div className="flex gap-4 overflow-x-scroll no-scrollbar">
         <DataCard data={256} title="Orders till now" />
         <DataCard data={213} title="Orders Completed" />
         <DataCard data={30} title="Orders Received today" />
@@ -28,11 +28,11 @@ export default function Home() {
           
         </div>
       </div>
-      <div className="flex w-full gap-4">
-        <Button variant={"outline"} className="w-full">Add Clothes</Button>
-        <Button variant={"outline"} className="w-full">Add Service</Button>
-        <Button variant={"outline"} className="w-full">Add Wash Type</Button>
-        <Button variant={"outline"} className="w-full">Add Delivery Person</Button>
+      <div className="flex w-full gap-4 flex-wrap">
+        <Button variant={"outline"}>Add Clothes</Button>
+        <Button variant={"outline"}>Add Service</Button>
+        <Button variant={"outline"}>Add Wash Type</Button>
+        <Button variant={"outline"}>Add Delivery Person</Button>
       </div>
     </MainWarapper>
   );

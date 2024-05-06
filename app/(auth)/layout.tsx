@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
  
 import Header from "@/components/core/Header";
-import Sidebar from "@/components/core/Sidebar";
  
 export const metadata: Metadata = {
   title: "Reshine / Admin",
@@ -17,7 +16,6 @@ export default function layout({
   return (
     <>
         <Header isAuthenticated={true}/>
-        <Sidebar/>
         {children}
     </>
   );
