@@ -77,22 +77,22 @@ const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
       <div className="relative">
         <label
           htmlFor={name}
-          className="absolute top-1.5 left-12 text-md text-gray-500 font-medium"
+          className="absolute top-1.5 left-12 text-gray-500 font-medium"
         >
           {label}
         </label>
-        <div className="absolute top-[62.5%] translate-y-[-50%] left-3 text-primary text-2xl ">
+        <div className="absolute top-[62.5%] translate-y-[-50%] left-3 text-primary text-2xl md:text-lg ">
           {LeftIcon && <LeftIcon />}
         </div>
         <Input
           name={name}
           type={type} ref={ref} 
-          className="px-12 pt-10 pb-6 text-xl placeholder:text-gray-300 placeholder:font-medium"
+          className="px-12 pt-10 pb-6 text-xl placeholder:text-gray-300 md:text-[1rem]"
           {...props}
         />
         {RightIcon && (
           <div
-            className={`absolute top-[50%] translate-y-[-50%] right-6 text-2xl ${
+            className={`absolute top-[50%] translate-y-[-50%] right-6 text-2xl md:text-lg ${
               rightIconClasses ? rightIconClasses : ""
             } `}
             onClick={rightIconClick}

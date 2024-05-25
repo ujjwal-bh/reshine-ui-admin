@@ -5,6 +5,14 @@ import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { orderDetailDummyData } from "@/lib/utils";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 export default function Home() {
   return (
     <MainWarapper>
@@ -17,16 +25,22 @@ export default function Home() {
       </div>
       <div className="flex flex-col gap-2">
         <SectionTitle>Recent Orders</SectionTitle>
-        <div className="flex flex-nowrap gap-4 overflow-x-scroll no-scrollbar">
-          {
-            orderDetailDummyData.map((item, index)=> {
-              return <OrderCard key={index} item={item}/>
-            })
-          }
-
-
-          
-        </div>
+        {/* <div className="flex flex-nowrap gap-4 overflow-x-scroll no-scrollbar">
+          {orderDetailDummyData.map((item, index) => {
+            return <OrderCard key={index} item={item} />;
+          })}
+        </div> */}
+        <Carousel>
+          <CarouselContent>
+            {orderDetailDummyData.map((item, index) => {
+              return (
+                <CarouselItem className={`basis-1/${orderDetailDummyData.length}`} key={index}>
+                  <OrderCard item={item} />
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
       </div>
       <div className="flex w-full gap-4 flex-wrap">
         <Button variant={"outline"}>Add Clothes</Button>

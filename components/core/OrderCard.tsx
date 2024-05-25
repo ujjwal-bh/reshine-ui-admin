@@ -18,7 +18,7 @@ export default function OrderCard({item, className}: IProps) {
         push(`/orders/${orderId}`)
     }
   return (
-    <Card className={`p-4 min-w-[25rem] cursor-pointer ${className ? className: ""}`} onClick={handleClick}>
+    <Card className={`p-4 min-w-[25rem] md:min-w-[20rem] cursor-pointer ${className ? className: ""}`} onClick={handleClick}>
         <div className='flex justify-between'>
             <span className='text-gray-400 text-sm'>Order ID: #{orderId}</span>
             <span className="text-gray-400 text-sm">{date}</span>
