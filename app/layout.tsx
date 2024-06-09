@@ -4,7 +4,8 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
  
 import { cn } from "@/lib/utils"
-import Header from "@/components/core/Header";
+import { Provider } from "react-redux";
+import { store } from "@/store";
  
 const fontSans = FontSans({
   subsets: ["latin"],

@@ -10,7 +10,6 @@ export default function AddServiceType() {
   return (
     <div className="w-full flex flex-col gap-4">
       <Select options={[]} placeholder="select Icon" />
-
       <InputWithIcon LeftIcon={FaMoneyBill} placeholder="Service name" />
       <Textarea placeholder="Enter the description" />
       <Button className="w-full">Add service type</Button>

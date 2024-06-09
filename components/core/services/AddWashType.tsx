@@ -1,10 +1,9 @@
 "use client"
-import SelectWithSearch from '@/components/ui/SelectWithSearch'
+import React from 'react'
 import { Button } from '@/components/ui/button'
 import { InputWithIcon } from '@/components/ui/input'
 import Select from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import React from 'react'
 import { FaMoneyBill } from 'react-icons/fa'
 
 export default function AddWashType() {

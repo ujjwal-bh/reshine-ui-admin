@@ -17,14 +17,14 @@ export default function page() {
         <div className="w-[60%] flex gap-4 flex-wrap lg:w-full">
           <FullCard
             title="Regular"
-            desc="lorem ipsum del emit jastai lamo lamo texts padh muji"
+            desc="lorem ipsum del emit jastai lamo lamo texts padh"
             Icon={FaStar}
             active={true}
 
           />
           <FullCard
             title="Express"
-            desc="lorem ipsum del emit jastai lamo lamo texts padh muji"
+            desc="lorem ipsum del emit jastai lamo lamo texts padh"
             Icon={FaTruckFast}
           />
         </div>
@@ -38,7 +38,7 @@ export default function page() {
         <div className="w-[60%] flex gap-4 flex-wrap lg:w-full">
           <FullCard
             title="Regular"
-            desc="lorem ipsum del emit jastai lamo lamo texts padh muji"
+            desc="lorem ipsum del emit jastai lamo lamo texts padh"
             Icon={FaStar}
             active={true}
           >
@@ -51,7 +51,7 @@ export default function page() {
           </FullCard>
           <FullCard
             title="Express"
-            desc="lorem ipsum del emit jastai lamo lamo texts padh muji"
+            desc="lorem ipsum del emit jastai lamo lamo texts padh"
             Icon={FaTruckFast}
           >
             <Link

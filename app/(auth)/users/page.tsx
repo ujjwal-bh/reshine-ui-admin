@@ -1,4 +1,4 @@
-import DeliveryTable from "@/components/core/DeliveryTable/DeliveryTable";
+import React from "react";
 import Filter from "@/components/core/Filter";
 import Pagination from "@/components/core/Pagination";
 import UserTable from "@/components/core/UserTable/UserTable";
@@ -9,7 +9,6 @@ import SectionTitle from "@/components/ui/sectionTitle";
 import Link from "next/link";
 
 
-import React from "react";
 import { FaSearch } from "react-icons/fa";
 
 export default function Users() {

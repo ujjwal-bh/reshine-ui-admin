@@ -7,11 +7,10 @@ import {
   FaHome,
   FaMoneyBill,
   FaSignOutAlt,
-  FaTimes,
   FaUser,
 } from "react-icons/fa";
-import MenuItem from "./MenuItem";
 import { FaShirt, FaSquarePollVertical, FaTruckFast } from "react-icons/fa6";
+import MenuItem from "./MenuItem";
 import { useRouter } from "next/navigation";
 
 interface IProps{
@@ -25,7 +24,7 @@ export default function Sidebar({active, setActive}: IProps) {
     push("/login");
   };
   return (
-    <div className={`fixed top-[4.5rem] lg:top-[4.15rem] z-10 left-0 bottom-0 w-[22.5rem] pt-4 bg-background shadow-lg border-r border-r-gray-200 lg:w-full ${!active && "lg:left-[-100%]"}`}>
+    <aside className={`fixed top-[4.5rem] lg:top-[4.15rem] z-10 left-0 bottom-0 w-[22.5rem] pt-4 bg-background shadow-lg border-r border-r-gray-200 lg:w-full ${!active && "lg:left-[-100%]"}`}>
       <MenuItem Icon={FaHome} path="/" onClick={()=> setActive(false)}>
         Home
       </MenuItem>
@@ -56,6 +55,6 @@ export default function Sidebar({active, setActive}: IProps) {
       <MenuItem Icon={FaSignOutAlt} onClick={handleLogout}>
         logout
       </MenuItem>
-    </div>
+    </aside>
   );
 }

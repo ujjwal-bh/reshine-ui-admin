@@ -57,7 +57,12 @@ export default function Cloth() {
             </div>
             <div className="flex gap-2 w-full">
               <Button className="w-full">Edit</Button>
-              <Button variant={"outline"} className="border-error text-error w-full">Cancel</Button>
+              <Button
+                variant={"outline"}
+                className="border-error text-error w-full"
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </DialogHeader>

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
-import Sidebar from "./Sidebar";
 import { usePathname } from "next/navigation";
+import Sidebar from "./Sidebar";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 interface IProps {
   isAuthenticated: boolean;

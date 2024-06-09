@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '../../ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import Link from 'next/link'
+
 export default function IssueTableRow() {
   return (
     <TableRow>
