@@ -6,8 +6,16 @@ import SectionTitle from "@/components/ui/sectionTitle";
 import { FaCheckCircle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useGetOrderQuery } from "@/app/global-redux/services/order-api";
+import Loading from "../../loading";
 
-export default function Order() {
+export default function Order({params}: {params: {id: string}}) {
+  console.log(params.id)
+
+  const {data: orderData, isSuccess: orderSuccess, isError: orderError, isLoading: orderLoading, isFetching: orderFetching} = useGetOrderQuery({id: params.id})
+  
+  if(orderFetching || orderLoading) return <Loading/>
+
   return (
     <MainWarapper>
       <div className="flex items-center gap-8 justify-between pb-4 border-b-2 border-gray-100">
@@ -15,21 +23,25 @@ export default function Order() {
           <Back />
           <SectionTitle>Order Details</SectionTitle>
         </div>
-        <h1 className="text-gray-400">Order ID: #12345</h1>
+        <h1 className="text-gray-400">Order ID: {orderData?.orderId}</h1>
       </div>
       <div className="flex gap-4 flex-wrap">
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
-          Express
+          {/* Express */}
+          {orderData?.serviceTypeInfo.name}
         </div>
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
           Regular wash
+          {/* this data is not available */}
         </div>
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
           location, address, state, country
+          {/* this data is not available as well */}
         </div>
       </div>
       <div className="flex gap-48 lg:flex-col lg:gap-8">
         <div className="flex flex-col gap-4">
+          {/* this data is not available as well */}
           <h1 className="text-lg">10 Clothes</h1>
           <div className="text-gray-400">
             <div className="flex items-center gap-16 mt-4">

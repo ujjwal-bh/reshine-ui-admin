@@ -8,21 +8,22 @@ import { InputWithLabel } from "@/components/ui/input";
 import { FaEnvelope, FaEyeSlash, FaLock } from "react-icons/fa";
 
 // api
-import { useLoginMutation } from "@/services/api";
 import Error from "@/components/ui/error";
 import { ApiError } from "@/interfaces/api-error.interface";
+import { useLoginMutation } from "@/app/global-redux/services/api";
+import toast from "react-hot-toast";
+import { ILoginData } from "@/interfaces/login.interface";
 
 export default function Login() {
   const { push } = useRouter();
 
   const [
     login,
-    { isSuccess: loginSuccess, isLoading: loginLoading, isError: isLoginError, error: loginError},
+    {data: loginData, isSuccess: loginSuccess, isLoading: loginLoading, isError: isLoginError, error: loginError},
   ] = useLoginMutation();
 
   const [showPass, setShowPass] = useState(false);
   const [cred, setCred] = useState({ email: "", password: "" });
-  const [error, setError] = useState({status: false, msg: ""});
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -30,16 +31,19 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (loginSuccess) push("/");
+    if (loginSuccess){
+      toast.success("Login successful");
+      console.log(loginData, "data")
+
+      localStorage.setItem("RESHINE_ACCESS_TOKEN", (loginData as ILoginData).tokens.access.token || "")
+      localStorage.setItem("RESHINE_REFRESH_TOKEN", (loginData as ILoginData).tokens.refresh.token || "")
+      push("/");
+    } 
   }, [loginSuccess]);
 
   useEffect(() => {
-    let timer;
     if (isLoginError) {
-      setError({status: true, msg: (loginError as ApiError).data.message});
-      timer = setTimeout(() => {
-        setError({status: false, msg: ""});
-      }, 3000);
+    toast.error("Something went wrong");
     }
   }, [loginError]);
   return (
@@ -89,9 +93,6 @@ export default function Login() {
           </div>
         </div>
       </form>
-      <Error active={error.status}>
-            {error.msg}
-      </Error>
     </>
   );
 }

@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
  
 import Header from "@/components/core/Header";
+import AuthWrapper from "../_auth-wrappers/auth-wrapper";
  
 export const metadata: Metadata = {
   title: "Reshine / Admin",
@@ -14,9 +15,9 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <AuthWrapper>
         <Header isAuthenticated={true}/>
         {children}
-    </>
+    </AuthWrapper>
   );
 }

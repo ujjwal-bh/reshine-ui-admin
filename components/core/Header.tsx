@@ -18,7 +18,7 @@ export default function Header({ isAuthenticated }: IProps) {
           <h1 className="font-extrabold text-2xl text-primary h-10 flex items-center md:text-xl">
             Reshine
           </h1>
-          <h2 className="text-lg font-bold text-primary h-10 flex items-center ml-2 mt-0.5 md:text-[1rem]">
+          <h2 className="text-lg font-bold text-slate-500 h-10 flex items-center ml-2 mt-0.5 md:text-[1rem]">
             Admin Dashboard
           </h2>
         </div>

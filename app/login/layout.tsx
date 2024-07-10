@@ -17,7 +17,7 @@ export default function LoginLayout({
   return (
     <>
         <Header isAuthenticated={false} />
-        {children}
+          {children}
     </>
       
   );

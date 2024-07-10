@@ -3,7 +3,7 @@ import React from "react";
 import MainWarapper from "@/components/ui/mainWarapper";
 import { Bars } from "react-loader-spinner";
 
-export default function loading() {
+export default function Loading() {
   return (
     <MainWarapper>
       <div className="h-[80vh] flex items-center justify-center w-full">

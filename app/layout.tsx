@@ -4,9 +4,8 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
  
 import { cn } from "@/lib/utils"
-import { Provider } from "react-redux";
-import { store } from "@/store";
- 
+ import {Toaster} from "react-hot-toast"
+import Providers from "./global-redux/providers";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -30,7 +29,10 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <Providers>
+          <Toaster/>
+          {children}
+        </Providers>
         </body>
     </html>
   );
