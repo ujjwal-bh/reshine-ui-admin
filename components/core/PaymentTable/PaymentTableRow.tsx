@@ -3,16 +3,24 @@ import { Button } from '../../ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import Link from 'next/link'
 
-export default function PaymentTableRow() {
+
+interface IProps {
+  email: string,
+  paymentId: string
+  date: string,
+  amount: number
+  orderId: string
+}
+export default function PaymentTableRow({email, paymentId,date,amount,orderId}: IProps) {
   return (
     <TableRow>
-    <TableCell>Ujjwal Bhattarai</TableCell>
-    <TableCell>#12334040</TableCell>
-    <TableCell>15th May, 2024</TableCell>
-    <TableCell>#A1233D</TableCell>
-    <TableCell>Rs 234</TableCell>
+    <TableCell>{email}</TableCell>
+    <TableCell>{paymentId}</TableCell>
+    <TableCell>{new Date(date).toLocaleDateString()}</TableCell>
+    <TableCell>{orderId}</TableCell>
+    <TableCell>Rs {amount}</TableCell>
     <TableCell className="flex gap-2 justify-center">
-      <Link href={"/orders/1234"} className='w-full'>
+      <Link href={`/orders/${orderId}`} className='w-full'>
       <Button size={"sm"} className="w-full">View order</Button>
       </Link>
     </TableCell>

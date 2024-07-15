@@ -1,20 +1,70 @@
 "use client";
-import React from "react";
-import Back from "@/components/ui/Back";
-import MainWarapper from "@/components/ui/mainWarapper";
-import SectionTitle from "@/components/ui/sectionTitle";
-import { FaCheckCircle } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useGetOrderQuery } from "@/app/global-redux/services/order-api";
+import { useEffect, useState } from "react";
+
+import {
+  useGetOrderQuery,
+  useUpdateOrderMutation,
+} from "@/app/_global-redux/services/order-api";
 import Loading from "../../loading";
 
-export default function Order({params}: {params: {id: string}}) {
-  console.log(params.id)
+import Back from "@/components/ui/Back";
+import { Button } from "@/components/ui/button";
+import MainWarapper from "@/components/ui/mainWarapper";
+import SectionTitle from "@/components/ui/sectionTitle";
+import toast from "react-hot-toast";
+import { FaCheckCircle } from "react-icons/fa";
+import { IOrderInOrders } from "@/interfaces/order.interface";
+import { cn } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
-  const {data: orderData, isSuccess: orderSuccess, isError: orderError, isLoading: orderLoading, isFetching: orderFetching} = useGetOrderQuery({id: params.id})
-  
-  if(orderFetching || orderLoading) return <Loading/>
+export default function Order({ params }: { params: { id: string } }) {
+  const {
+    data: orderData,
+    isLoading: orderLoading,
+    isFetching: orderFetching,
+    isSuccess: orderSuccess,
+    isError: isOrderError
+  } = useGetOrderQuery({ id: params.id });
+  const [
+    updateOrder,
+    {
+      isError: updateOrderError,
+      isLoading: updateOrderLoading,
+      isSuccess: updateOrderSuccess,
+    },
+  ] = useUpdateOrderMutation();
+
+  const handleMarkDelivered = async () => {
+    await updateOrder({
+      id: orderData!.id,
+      body: { status: "delivered"},
+    });
+  };
+
+  const handleCancelOrder = async () => {
+    await updateOrder({
+      id: orderData!.id,
+      body: { status: "canceled"},
+    });
+  };
+
+  const handleMarkPaid = async () => {
+    await updateOrder({
+      id: orderData!.id,
+      body: { paymentStatus: !orderData!.paymentStatus },
+    });
+  };
+
+  useEffect(() => {
+    if (updateOrderSuccess) {
+      toast.success("Operation successful");
+    }
+  }, [updateOrderSuccess]);
+
+  if (orderFetching || orderLoading) return <Loading />;
+
+  if(isOrderError) return notFound()
 
   return (
     <MainWarapper>
@@ -27,22 +77,22 @@ export default function Order({params}: {params: {id: string}}) {
       </div>
       <div className="flex gap-4 flex-wrap">
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
-          {/* Express */}
-          {orderData?.serviceTypeInfo.name}
+          {orderData?.serviceTypeInfo?.name}
         </div>
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
-          Regular wash
+          wash type not available
           {/* this data is not available */}
         </div>
         <div className="py-2 px-4 min-w-32 text-center bg-primaryTransparent text-primary">
-          location, address, state, country
-          {/* this data is not available as well */}
+          {orderData?.addressInfo?.landmark}, {orderData?.addressInfo?.address},{" "}
+          {orderData?.addressInfo?.city}, {orderData?.addressInfo?.country} -{" "}
+          {orderData?.addressInfo?.pincode}
         </div>
       </div>
       <div className="flex gap-48 lg:flex-col lg:gap-8">
         <div className="flex flex-col gap-4">
           {/* this data is not available as well */}
-          <h1 className="text-lg">10 Clothes</h1>
+          <h1 className="text-lg">10 Clothes data not available</h1>
           <div className="text-gray-400">
             <div className="flex items-center gap-16 mt-4">
               <div className="flex items-center gap-4">
@@ -68,7 +118,8 @@ export default function Order({params}: {params: {id: string}}) {
               <div className="h-12 w-[2px] bg-success"></div>
             </div>
             <span className="text-foreground mt-[-4px]">
-              Order placed on 24 March, 2024
+              Order placed on{" "}
+              {new Date(orderData?.createdAt || "").toLocaleDateString()}
             </span>
           </div>
           <div className="flex gap-8 text-gray-400">
@@ -77,7 +128,7 @@ export default function Order({params}: {params: {id: string}}) {
               <div className="h-12 w-[2px] bg-gray-400"></div>
             </div>
             <span className="text-foreground mt-[-4px]">
-              Order picked up on 24 March, 2024
+              Order picked up on pickup date
             </span>
           </div>
           <div className="flex gap-8 text-gray-400">
@@ -85,22 +136,43 @@ export default function Order({params}: {params: {id: string}}) {
               <FaCheckCircle />
             </div>
             <span className="text-foreground mt-[-4px]">
-              Expected delivery on 24 March, 2024
+              Expected delivery on delivery date
             </span>
           </div>
         </div>
       </div>
       <div className="flex flex-col">
         <h1 className="font-black text-xl">$ 234</h1>
-        <span className="text-error text-sm">not paid</span>
+        <span
+          className={cn(
+            "text-sm",
+            orderData?.paymentStatus ? "text-success" : "text-error"
+          )}
+        >
+          {orderData?.paymentStatus ? "Paid" : "Not Paid"}
+        </span>
       </div>
       <div className="flex gap-4 lg:flex-wrap">
-        <Link href="/orders/1234/edit" className="w-full">
+        <Link href={`/orders/${orderData!.id}/edit`} className="w-full">
           <Button className="min-w-[12rem] w-full">Edit Order</Button>
         </Link>
-        <Button className="min-w-[12rem] w-full">Mark delivered</Button>
-        <Button className="min-w-[12rem] w-full">Mark paid</Button>
-        <Button className="min-w-[12rem] bg-error w-full">Cancel Order</Button>
+        <Button className="min-w-[12rem] w-full" onClick={handleMarkDelivered}>
+          Mark delivered
+        </Button>
+
+        <Button
+          className="min-w-[12rem] w-full"
+          variant={orderData?.paymentStatus ? "errorOutline" : "default"}
+          onClick={handleMarkPaid}
+        >
+          {orderData?.paymentStatus ? "Mark unpaid" : "Mark paid"}
+        </Button>
+        <Button
+          className="min-w-[12rem] bg-error w-full"
+          onClick={handleCancelOrder}
+        >
+          Cancel Order
+        </Button>
       </div>
     </MainWarapper>
   );

@@ -1,17 +1,37 @@
-import React from "react";
+'use client'
 import Filter from "@/components/core/Filter";
-import Pagination from "@/components/core/Pagination";
 import UserTable from "@/components/core/UserTable/UserTable";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import Link from "next/link";
+import { useState } from "react";
 
 
+import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
+import Loading from "../loading";
+import PaginationComponent from "@/components/core/Pagination";
 
 export default function Users() {
+  const pathname = usePathname();
+  const router = useRouter()
+  const searchParams = useSearchParams();
+
+  const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
+  const limit = 10
+  const {data: usersData, isSuccess: usersSuccess, isError: usersError, isLoading: usersLoading, isFetching: usersFetching, refetch} = useGetAllUsersQuery({page, limit})
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    router.push(`${pathname}?page=${newPage}`);
+  };
+
+  if(usersFetching || usersLoading){
+    return <Loading/>
+  }
   return (
     <MainWarapper>
       <div className="flex justify-between gap-2 items-center lg:flex-col lg:items-start">
@@ -28,8 +48,12 @@ export default function Users() {
             </Link>
         </div>
       </div>
-      <UserTable/>
-      <Pagination />
+      <UserTable users={usersData.results}/>
+      <PaginationComponent 
+       currentPage={page}
+       totalPages={usersData?.totalPages || 1}
+       onPageChange={handlePageChange}
+      />
     </MainWarapper>
   );
 }

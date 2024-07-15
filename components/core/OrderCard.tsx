@@ -17,17 +17,16 @@ interface IProps {
 export default function OrderCard({ item, className }: IProps) {
   const { push } = useRouter();
   const {
-    // amount,
-    // clothesCount,
-    // date,
-    // location,
+    userInfo,
     orderId,
-    // orderStatus,
     paymentStatus,
-    user,
     id,
-    // washType,
+    addressInfo,
+    status,
+    createdAt,
   } = item;
+
+  console.log(item, "item");
 
   const handleClick = () => {
     push(`/orders/${id}`);
@@ -41,11 +40,15 @@ export default function OrderCard({ item, className }: IProps) {
     >
       <div className="flex justify-between">
         <span className="text-gray-400 text-sm">Order ID: #{orderId}</span>
-        <span className="text-gray-400 text-sm">"date</span>
+        <span className="text-gray-400 text-sm">{
+          new Date(createdAt)?.toLocaleString()
+          }</span>
       </div>
       <h1 className="font-semibold text-lg">washType</h1>
-      <h2>{user}</h2>
-      <span className="text-gray-400 text-sm break-words">location</span>
+      <h2>{userInfo?.name}</h2>
+      <span className="text-gray-400 text-sm break-words">
+        { `${addressInfo.landmark}, ${addressInfo.address}...`}
+      </span>
       <h3 className="text-gray-400 my-4">clothesCount Clothes</h3>
 
       <div className="flex justify-between items-center">
@@ -62,13 +65,12 @@ export default function OrderCard({ item, className }: IProps) {
         </div>
         <div
           className={`p-2 rounded-sm ${
-            true
-            // orderStatus === "Cancelled"
+            status === "Cancelled"
               ? "bg-errorTransparent text-error"
               : "bg-primaryTransparent text-primary"
           }`}
         >
-          orderStatus
+          {status}
         </div>
       </div>
     </Card>

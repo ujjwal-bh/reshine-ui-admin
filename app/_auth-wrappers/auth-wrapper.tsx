@@ -3,11 +3,11 @@ import React, { PropsWithChildren, useEffect } from "react";
 import { ApiError } from "@/interfaces/api-error.interface";
 import { redirect, usePathname } from "next/navigation";
 import Header from "@/components/core/Header";
-import { useGetCurrentUserQuery } from "../global-redux/services/user-api";
+import { useGetCurrentUserQuery } from "../_global-redux/services/user-api";
+import Loading from "../(auth)/loading";
 
 interface IProps extends PropsWithChildren {}
 export default function AuthWrapper({ children }: IProps) {
-  const pathname = usePathname();
 
   const {
     isError: isCurrentUserError,
@@ -25,7 +25,7 @@ export default function AuthWrapper({ children }: IProps) {
   }, [isCurrentUserError]);
 
   if (currentUserFetching || currentUserLoading) {
-    return <div>Loading</div>;
+    return <Loading/>
   }
   return children;
 }

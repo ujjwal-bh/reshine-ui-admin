@@ -95,10 +95,6 @@ const ButtonWithPopup = ({
   cancelClick,
   ...props
 }: IProps) => {
-  return (
-    <Alert {...{ confirmClick, cancelClick, ...props }}>
-      {children}
-    </Alert>
-  );
+  return <Alert {...{ confirmClick, cancelClick, ...props }}>{children}</Alert>;
 };
 export { Button, buttonVariants, ButtonWithPopup };

@@ -2,17 +2,30 @@
 import { useDeleteClothMutation } from "@/app/_global-redux/services/clothes-api";
 import { PropsWithChildren, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
-import Alert from "./Alert";
-import { Card } from "./card";
 import toast from "react-hot-toast";
+import { Card } from "@/components/ui/card";
+import Alert from "@/components/ui/Alert";
 
 interface IProps extends PropsWithChildren {
-  id?: string
+  id: string
 }
 
-export default function MiniCard({ id, children }: IProps) {
+export default function ClothesCard({ id, children }: IProps) {
+
+  const [deleteCloth, {isError, isLoading, isSuccess}] = useDeleteClothMutation();
+  
   const onClick = async () => {
+    await deleteCloth(id);
   }
+
+  useEffect(()=> {
+    if(isError){
+      toast.error("Something went wrong")
+    }
+    if(isSuccess){
+      toast.success("Cloth deleted successfully")
+    }
+  },[isError, isSuccess])
   
   return (
     <Card className="p-2 min-w-40 flex justify-between items-center bg-primaryTransparent">

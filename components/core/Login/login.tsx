@@ -10,7 +10,7 @@ import { FaEnvelope, FaEyeSlash, FaLock } from "react-icons/fa";
 // api
 import Error from "@/components/ui/error";
 import { ApiError } from "@/interfaces/api-error.interface";
-import { useLoginMutation } from "@/app/global-redux/services/api";
+import { useLoginMutation } from "@/app/_global-redux/services/api";
 import toast from "react-hot-toast";
 import { ILoginData } from "@/interfaces/login.interface";
 

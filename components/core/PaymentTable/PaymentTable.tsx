@@ -8,8 +8,12 @@ import {
     TableRow,
   } from "@/components/ui/table";
 import PaymentTableRow from './PaymentTableRow';
+import { IPayment } from '@/interfaces/payment.interface';
 
-export default function PaymentTable() {
+interface IProps{
+  data: IPayment[]
+}
+export default function PaymentTable({data}: IProps) {
   return (
     <Table className='border-2 border-gray-100'>
     <TableCaption>A list of Payments.</TableCaption>
@@ -24,7 +28,12 @@ export default function PaymentTable() {
       </TableRow>
     </TableHeader>
     <TableBody>
-      <PaymentTableRow/>
+      {
+        data?.map((item)=> (
+
+          <PaymentTableRow key={item.id} date={item.createdAt} email={item.email} orderId={item.orderId} paymentId={item.paymentId} amount={item.amount}/>
+        ))
+      }
     </TableBody>
   </Table>
   )

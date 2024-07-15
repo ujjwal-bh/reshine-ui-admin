@@ -5,7 +5,7 @@ import { Inter as FontSans } from "next/font/google"
  
 import { cn } from "@/lib/utils"
  import {Toaster} from "react-hot-toast"
-import Providers from "./global-redux/providers";
+import Providers from "./_global-redux/providers";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",

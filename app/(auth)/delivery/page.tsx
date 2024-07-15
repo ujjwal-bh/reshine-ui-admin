@@ -30,7 +30,7 @@ export default function Delivery() {
         </div>
       </div>
       <DeliveryTable />
-      <Pagination />
+      {/* <Pagination /> */}
     </MainWarapper>
   );
 }

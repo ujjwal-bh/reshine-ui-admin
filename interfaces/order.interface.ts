@@ -1,68 +1,44 @@
 export interface IOrderInOrders {
-  tax: number;
-  discount: number;
-  status: string;
-  paymentStatus: boolean;
   user: string;
-  serviceType: string;
+  addressInfo: {
+    country: string;
+    active: boolean;
+    state: string;
+    city: string;
+    address: string;
+    landmark: string;
+    pincode: number;
+  };
   deliveryCharge: number;
-  discountType: "string";
-  pin: string;
-  address: string;
-  orderId: number;
-  razorpayOrderId: string;
+  discount: number;
+  discountType: string;
+  dropInfo: any;
   id: string;
+  orderId: number;
+  orderItemsInfo: any[];
+  paymentStatus: boolean;
+  pickupInfo: any;
+  pin: string;
+  serviceTypeInfo: {
+    active: boolean;
+    name: string;
+  };
+  status: string;
+  tax: number;
+  createdAt: string;
+  userCouponInfo: any;
+  userInfo: {
+    phone: string;
+    email: string;
+    name: string;
+    id: string;
+  };
 }
 
 export interface IOrders {
+  limit: number;
+  page: 1;
   results: IOrderInOrders[];
-}
-// export interface IOrder{
-//     results: IOrder[]
-// }
-
-// export enum ORDER_STATUS{
-//     created,
-//     pending
-// }
-
-// export enum DISCOUNT_TYPE{
-//     fixed
-// }
-
-export interface ISingleOrder {
-  tax: number;
-  discount: number;
-  status: string;
-  paymentStatus: boolean;
-  user: string;
-  serviceType: string;
-  deliveryCharge: number;
-  discountType: string;
-  pin: string;
-  address: string;
-  orderId: number;
-  razorpayOrderId: string;
-  userInfo: IUserInfo;
-  pickupInfo: any;
-  dropInfo: any;
-  serviceTypeInfo: {
-    active: true;
-    name: "Express";
-    id: "668d6d5181947d1e53bd7907";
-  };
-  userCouponInfo: any;
-  id: string;
-}
-
-interface IUserInfo {
-  phone: string;
-  email: string;
-  id: string;
-}
-
-interface IServiceTypeInfo {
-  active: boolean;
-  name: string;
-  id: string;
+  totalPages: number;
+  totalResults: number;
 }

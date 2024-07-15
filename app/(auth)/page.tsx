@@ -1,17 +1,28 @@
+"use client";
 import DataCard from "@/components/core/DataCard";
 import OrderCard from "@/components/core/OrderCard";
 import { Button } from "@/components/ui/button";
-import MainWarapper from "@/components/ui/mainWarapper";
-import SectionTitle from "@/components/ui/sectionTitle";
-import { orderDetailDummyData } from "@/lib/utils";
-
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import MainWarapper from "@/components/ui/mainWarapper";
+import SectionTitle from "@/components/ui/sectionTitle";
+import { orderDetailDummyData } from "@/lib/utils";
+import { useGetAllOrdersQuery } from "../_global-redux/services/order-api";
+import Loading from "./loading";
+import { query } from "@/lib/get-query";
 
 export default function Home() {
+  const {
+    data: getAllOrdersData,
+    isLoading: getAllOrdersLoading,
+    isFetching: getAllOrdersFetching,
+    isSuccess: getAllOrdersSuccess,
+  } = useGetAllOrdersQuery({ page: 1, limit: 10 });
+
+  if (getAllOrdersFetching || getAllOrdersLoading) return <Loading />;
   return (
     <MainWarapper>
       <div className="flex gap-4 overflow-x-scroll no-scrollbar">
@@ -25,13 +36,13 @@ export default function Home() {
         <SectionTitle>Recent Orders</SectionTitle>
         <Carousel>
           <CarouselContent>
-            {orderDetailDummyData.map((item, index) => {
+            {getAllOrdersData?.results?.map((item: any, index: number) => {
               return (
                 <CarouselItem
                   className={`basis-1/${orderDetailDummyData.length}`}
                   key={index}
                 >
-                  <OrderCard item={item} />
+                  <OrderCard item={item} className="min-w-[25rem]" />
                 </CarouselItem>
               );
             })}
@@ -39,10 +50,18 @@ export default function Home() {
         </Carousel>
       </div>
       <div className="grid grid-cols-5 md:grid-cols-1 gap-2">
-        <Button variant={"outline"} className="w-full">Add Clothes</Button>
-        <Button variant={"outline"} className="w-full">Add Service</Button>
-        <Button variant={"outline"} className="w-full">Add Wash Type</Button>
-        <Button variant={"outline"} className="w-full">Add Delivery Person</Button>
+        <Button variant={"outline"} className="w-full">
+          Add Clothes
+        </Button>
+        <Button variant={"outline"} className="w-full">
+          Add Service
+        </Button>
+        <Button variant={"outline"} className="w-full">
+          Add Wash Type
+        </Button>
+        <Button variant={"outline"} className="w-full">
+          Add Delivery Person
+        </Button>
       </div>
     </MainWarapper>
   );
