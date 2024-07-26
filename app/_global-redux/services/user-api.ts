@@ -15,6 +15,7 @@ export const userApi = createApi({
     }),
     getAllUsers: builder.query<any, { page: number; limit: number }>({
       query: ({ page, limit }) => `admin/users?page=${page}&limit=${limit}`,
+      providesTags: ["USERS"]
      
     }),
     getUser: builder.query<any, string>({
@@ -27,12 +28,14 @@ export const userApi = createApi({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["USERS"]
     }),
     deactivateUser: builder.mutation<any, string>({
       query: (id) => ({
         url: `admin/users/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["USERS"]
       
     }),
   }),

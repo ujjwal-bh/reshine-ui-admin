@@ -1,27 +1,29 @@
 'use client'
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
+
 import Filter from "@/components/core/Filter";
 import UserTable from "@/components/core/UserTable/UserTable";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import Link from "next/link";
-import { useState } from "react";
 
 
-import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaSearch } from "react-icons/fa";
-import Loading from "../loading";
 import PaginationComponent from "@/components/core/Pagination";
+import Loading from "../loading";
 
 export default function Users() {
-  const pathname = usePathname();
   const router = useRouter()
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
   const limit = 10
+  const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
   const {data: usersData, isSuccess: usersSuccess, isError: usersError, isLoading: usersLoading, isFetching: usersFetching, refetch} = useGetAllUsersQuery({page, limit})
 
   const handlePageChange = (newPage: number) => {
