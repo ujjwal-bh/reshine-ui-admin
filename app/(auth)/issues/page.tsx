@@ -1,28 +1,52 @@
-import Filter from "@/components/core/Filter";
+"use client"
+import { useEffect, useState } from "react";
+import { useCreateIssueTypeMutation, useDeleteIssueTypeMutation, useGetAllIssueTypesQuery } from "@/app/_global-redux/services/issues-api";
 import IssueTable from "@/components/core/IssueTable/IssueTable";
-import Pagination from "@/components/core/Pagination";
 import MiniCard from "@/components/ui/MiniCard";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 
-import React from "react";
 import { FaSearch } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function Issues() {
+  const [issueType, setIssueType] = useState("")
+
+  const [createIssueType, {isSuccess: createIssueTypeSuccess, isError: createIssueTypeError, isLoading: createIssueTypeLoading}] = useCreateIssueTypeMutation()
+
+  const {data: issueTypeData, isSuccess: issueTypeDataSuccess } = useGetAllIssueTypesQuery({limit:1000, page: 1})
+  const [deleteIssuseType, {isSuccess: deleteIssueTypeSuccess, isError: deleteIssueTypeError, isLoading: deleteIssueTypeLoading}] = useDeleteIssueTypeMutation()
+  const handleAddIssueType = async () => {
+    await createIssueType({name: issueType})
+    setIssueType("")
+  }
+
+  useEffect(()=> {
+    if(createIssueTypeError){
+      toast.error("Something went wrong")
+    }
+    if(createIssueTypeSuccess){
+      toast.success("Operation successful")
+    }
+  }, [createIssueTypeError, createIssueTypeSuccess, deleteIssueTypeError])
   return (
     <MainWarapper>
       <SectionTitle>Issue Types</SectionTitle>
       <div className="flex gap-4 flex-wrap">
-        <MiniCard>Issue Type</MiniCard>
-        <MiniCard>Issue Type two</MiniCard>
-        <MiniCard>Issue Type three</MiniCard>
+        {
+          issueTypeData?.results?.map((item)=> (
+            <MiniCard onClick={async ()=> {await deleteIssuseType(item.id)}} key={item.id}>{item.name}</MiniCard>
+          ))
+        }
       </div>
       <div className="flex justify-between flex-wrap lg:gap-16">
         <div className="flex gap-2 flex-wrap">
-          <InputWithIcon placeholder="add issue type" />
-          <Button size={"sm"}>Add Issue Type</Button>
+          <InputWithIcon placeholder="add issue type" value={issueType} onChange={(e)=> setIssueType(e.target.value)}/>
+          <Button size={"sm"} onClick={handleAddIssueType} disabled={createIssueTypeLoading}>{
+            createIssueTypeLoading ? "Loading" : "Add Issue Type"
+            }</Button>
         </div>
         <div className="flex gap-2 flex-wrap">
           <InputWithIcon
@@ -30,11 +54,11 @@ export default function Issues() {
             placeholder="search issue . . ."
             className="min-w-[15rem]"
           />
-          <Filter />
+          {/* <Filter /> */}
         </div>
       </div>
       <IssueTable />
-      <Pagination />
+      {/* <Pagination /> */}
     </MainWarapper>
   );
 }

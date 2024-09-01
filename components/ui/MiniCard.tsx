@@ -8,12 +8,10 @@ import toast from "react-hot-toast";
 
 interface IProps extends PropsWithChildren {
   id?: string
+  onClick?: ()=> void
 }
 
-export default function MiniCard({ id, children }: IProps) {
-  const onClick = async () => {
-  }
-  
+export default function MiniCard({ id, children, onClick }: IProps) {
   return (
     <Card className="p-2 min-w-40 flex justify-between items-center bg-primaryTransparent">
       <span>{children}</span>

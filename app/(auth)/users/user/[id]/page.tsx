@@ -64,6 +64,7 @@ export default function EditUser({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (userDataSuccess) {
+      console.log(userData, "data ")
       setFormData({
         ...INIT,
         email: userData.email || "",

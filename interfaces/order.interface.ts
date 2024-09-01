@@ -1,3 +1,5 @@
+import { BaseInterface } from "./baseInterface";
+
 export interface IOrderInOrders {
   user: string;
   addressInfo: {
@@ -35,10 +37,6 @@ export interface IOrderInOrders {
   };
 }
 
-export interface IOrders {
-  limit: number;
-  page: 1;
+export interface IOrders extends BaseInterface {
   results: IOrderInOrders[];
-  totalPages: number;
-  totalResults: number;
 }

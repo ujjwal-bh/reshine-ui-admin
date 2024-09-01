@@ -29,7 +29,7 @@ import ClothServicePricingCard from "@/components/core/services/ClothServicePric
 export default function page({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [cloth, setCloth] = useState("");
-  const [price, setPrice] = useState<number>(0)
+  const [price, setPrice] = useState<number>(0);
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -50,7 +50,7 @@ export default function page({ params }: { params: { id: string } }) {
     {
       isSuccess: createClothServicePricingSuccess,
       isError: createClothServicePricingError,
-      isLoading: createClothServicePricingLoading
+      isLoading: createClothServicePricingLoading,
     },
   ] = useCreateClothServicePricingMutation();
 
@@ -89,9 +89,9 @@ export default function page({ params }: { params: { id: string } }) {
     await createClothServicePricing({
       cloth,
       service: params.id,
-      price
-    })
-  }
+      price,
+    });
+  };
   useEffect(() => {
     if (serviceSuccess) {
       setData({
@@ -146,18 +146,25 @@ export default function page({ params }: { params: { id: string } }) {
       <form className="flex flex-col gap-4">
         <div className="flex gap-8 lg:flex-col lg:gap-4">
           <div className="flex flex-col gap-4 w-[50%] lg:w-full">
-            <SelectWithSearch placeholder="Select Icon" />
-            <InputWithIcon
-              LeftIcon={FaMoneyBill}
-              value={data.name}
-              onChange={(e) => setData({ ...data, name: e.target.value })}
-            />
+            {/* <SelectWithSearch placeholder="Select Icon" /> */}
+            <div>
+              <label htmlFor="name">Wash type name</label>
+              <InputWithIcon
+                LeftIcon={FaMoneyBill}
+                value={data.name}
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Wash type description</label>
+              <Textarea
+                value={data.description}
+                onChange={(e) =>
+                  setData({ ...data, description: e.target.value })
+                }
+              />
+            </div>
           </div>
-          <Textarea
-            className="w-[50%] lg:w-full"
-            value={data.description}
-            onChange={(e) => setData({ ...data, description: e.target.value })}
-          />
         </div>
         <Button
           className="w-48"
@@ -186,11 +193,16 @@ export default function page({ params }: { params: { id: string } }) {
             className="w-full"
             type="number"
             value={price}
-            onChange={(e)=> setPrice(Number(e.target.value))}
+            onChange={(e) => setPrice(Number(e.target.value))}
           />
         </div>
         <div className="w-[100%]">
-          <Button size="sm" className="w-48" onClick={handleCreateClothServicePricing} disabled={createClothServicePricingLoading}>
+          <Button
+            size="sm"
+            className="w-48"
+            onClick={handleCreateClothServicePricing}
+            disabled={createClothServicePricingLoading}
+          >
             Add Cloth
           </Button>
         </div>
@@ -203,21 +215,18 @@ export default function page({ params }: { params: { id: string } }) {
             placeholder="search.."
             className="min-w-[15rem]"
           />
-          <Filter />
+          {/* <Filter /> */}
         </div>
       </div>
       <div className="flex gap-4 flex-wrap">
-        {
-          clothServicePricingData?.results.map((item)=> (
-        <ClothServicePricingCard key={item.id} id={item.id}>
-          <div className="flex gap-4">
-            <span>{item.clothInfo.name}</span>
-            <span>Rs {item.price}</span>
-          </div>
-        </ClothServicePricingCard>
-
-          ))
-        }
+        {clothServicePricingData?.results.map((item) => (
+          <ClothServicePricingCard key={item.id} id={item.id}>
+            <div className="flex gap-4">
+              <span>{item.clothInfo.name}</span>
+              <span>Rs {item.price}</span>
+            </div>
+          </ClothServicePricingCard>
+        ))}
       </div>
     </MainWarapper>
   );

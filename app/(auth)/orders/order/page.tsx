@@ -1,19 +1,116 @@
 "use client";
-import React from "react";
+import { useGetAllAddressesQuery } from "@/app/_global-redux/services/address-api";
+import { useGetAllClothPricingForServiceMutation, useGetAllServicesQuery } from "@/app/_global-redux/services/laundry-service-api";
+import { useCreateOrderMutation } from "@/app/_global-redux/services/order-api";
+import { useGetAllServiceTypesQuery } from "@/app/_global-redux/services/service-type-api";
+import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
+import AddCloth from "@/components/core/Order/AddCloth";
+import Cloth from "@/components/core/Order/Cloth";
 import Back from "@/components/ui/Back";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { DatePicker } from "@/components/ui/datePicker";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { FaHandsWash, FaStar } from "react-icons/fa";
-import { DatePicker } from "@/components/ui/datePicker";
-import ServiceType from "@/components/core/Order/ServiceType";
-import { FaDiamond, FaShirt, FaTruckFast } from "react-icons/fa6";
-import Cloth from "@/components/core/Order/Cloth";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import AddCloth from "@/components/core/Order/AddCloth";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { IAddress } from "@/interfaces/address.interface";
+import { IClothServicePricing } from "@/interfaces/cloth-service-pricing.interface";
+import { IUser } from "@/interfaces/login.interface";
+import { ILaundryService, IServiceType } from "@/interfaces/services.interface";
+import { useEffect, useState } from "react";
+import { FaShirt } from "react-icons/fa6";
 
+
+export interface ISelectedCloth {
+  cloth: string,
+  count: number
+}
 export default function AddOrder() {
+  const [user, setUser] = useState("");
+  const [pickupAddress, setPickupAddress] = useState("");
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [serviceType, setServiceType] = useState("");
+  const [washType, setWashType] = useState("");
+  const [selectedClothes, setSelectedClothes] = useState<ISelectedCloth[]>([])
+  const [allClothesData, SetAllClothes] = useState<IClothServicePricing[]>()
+
+
+  const { data: allAddresses } = useGetAllAddressesQuery({
+    limit: 1000,
+    page: 1,
+  });
+  // this is ineffecient and needs to be changed as the users increases to more than 1000
+  const { data: allUsers } = useGetAllUsersQuery({
+    limit: 1000,
+    page: 1,
+    role: "user",
+  });
+  const { data: allServiceTypes } = useGetAllServiceTypesQuery({
+    limit: 1000,
+    page: 1,
+  });
+
+  const {data: allServices} = useGetAllServicesQuery({
+    limit: 1000,
+    page: 1,
+  });
+  const [getAllClothPricingForService, {data: getAllClothPricingData, isSuccess: getAllClothPricingSuccess}] = useGetAllClothPricingForServiceMutation()
+
+
+const [createOrder, {isSuccess: createOrderSuccess, isError: createOrderError, isLoading: createOrderLoading}] = useCreateOrderMutation()
+
+  const modifyAddressArray = (addresses: IAddress[]) => {
+    return addresses.map((address) => {
+      return {
+        label: `${address.landmark}, ${address.address}, ${address.city}, ${address.state}, ${address.pincode}`,
+        value: address.id,
+      };
+    });
+  };
+
+  const modifyUsersArray = (users: IUser[]) => {
+    return users.map((usr) => {
+      return { label: usr.name + " " + usr.phone, value: usr.id };
+    });
+  };
+
+  const modifyServiceTypesArray = (srvs: IServiceType[] | ILaundryService[]) => {
+    return srvs.map((srv) => {
+      return { label: srv.name, value: srv.id };
+    });
+  };
+
+
+
+
+
+  const getClothPricingData = async ()=> {
+    const data = await getAllClothPricingForService(washType)
+    SetAllClothes(data?.data?.results || [])
+
+  }
+
+  useEffect(()=> {
+    getClothPricingData()
+  }, [washType])
+
+
+
+
+  const handleSubmitOrder = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    await createOrder({
+      address: pickupAddress,
+      pickupDate,
+      user,
+      serviceType,
+      service: washType,
+      clothes: selectedClothes
+    })
+  }
+
+
   return (
     <MainWarapper>
       <div className="flex items-center gap-8 justify-between pb-4 border-b-2 border-gray-100">
@@ -21,57 +118,69 @@ export default function AddOrder() {
           <Back />
           <SectionTitle>Add Order</SectionTitle>
         </div>
-        <h1 className="text-gray-400">Order ID: #12345</h1>
       </div>
       <div className="flex w-full gap-[5%] lg:flex-col lg:gap-8">
-        <form className="w-[60%] flex flex-col gap-4 lg:w-full">
-          <SelectWithSearch />
+        <form className="w-[60%] flex flex-col gap-4 lg:w-full" onSubmit={handleSubmitOrder}>
+          <div>
+            <label htmlFor="location">Pickup Location</label>
+            <SelectWithSearch
+              options={modifyAddressArray(allAddresses?.results || [])}
+              setData={setPickupAddress}
+              placeholder="Select pickup location"
+            />
+          </div>
 
           <div className="flex gap-4">
-            <SelectWithSearch />
-            <DatePicker />
+            <div className="w-full">
+              <label htmlFor="user">User</label>
+              <SelectWithSearch
+                options={modifyUsersArray(allUsers?.results || [])}
+                setData={setUser}
+                placeholder="select user"
+              />
+            </div>
+            <div className="w-full">
+              <label htmlFor="date">Select Pickup date</label>
+              <DatePicker setDate={setPickupDate} date={pickupDate} />
+            </div>
           </div>
           <div className="flex gap-4 mt-4 lg:flex-col">
             <div className="flex w-[50%] flex-col gap-2 lg:w-full">
               <h1>Select Service Type</h1>
-              <ServiceType
-                options={[
-                  { title: "Regular", Icon: FaStar },
-                  { title: "Express", Icon: FaTruckFast },
-                  { title: "Premium", Icon: FaDiamond },
-                ]}
-                active="Regular"
+              <SelectWithSearch
+                options={modifyServiceTypesArray(allServiceTypes?.results || [])}
+                setData={setServiceType}
+                placeholder="select Service type"
               />
             </div>
             <div className="flex w-[50%] flex-col gap-2 lg:w-full">
               <h1>Select Wash Type</h1>
-              <ServiceType
-                options={[
-                  { title: "Wash", Icon: FaHandsWash },
-                  { title: "Wash and Press and", Icon: FaShirt },
-                ]}
-                active="Wash"
+              <SelectWithSearch
+                options={modifyServiceTypesArray(allServices?.results || [])}
+                setData={setWashType}
+                placeholder="select Wash type"
               />
             </div>
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <h1>Clothes</h1>
             <div className="flex gap-4 flex-wrap">
-              <Cloth />
-              <Cloth />
-              <Cloth />
-              <Cloth />
-              <Cloth />
+              {
+                selectedClothes.map((singleCloth) => (
+                  <Cloth key={singleCloth.cloth} cloth={singleCloth.cloth} count={singleCloth.count} selectedClothes={selectedClothes} setSelectedClothes={setSelectedClothes} />
+                ))
+              }
+            
             </div>
             <div className="mt-4">
-              <AddCloth />
+              <AddCloth allClothesData={allClothesData || []} clothes={selectedClothes} setClothes={setSelectedClothes}/>
             </div>
           </div>
         </form>
         <div className="w-[35%] lg:w-full">
           <SectionTitle>Order details</SectionTitle>
           <div className="flex mt-4 gap-x-2 gap-y-8 flex-wrap">
-            {[1, 2, 3,5,4].map((item, index) => {
+            {[1, 2, 3, 5, 4].map((item, index) => {
               return (
                 <div
                   className="flex flex-col font-medium items-center gap-2"
@@ -106,11 +215,14 @@ export default function AddOrder() {
         </div>
       </div>
       <div className="flex gap-2 mt-8 flex-wrap">
-        <Button className="min-w-[15rem] border-error text-error lg:w-full" variant={"outline"}>
+        <Button
+          className="min-w-[15rem] border-error text-error lg:w-full"
+          variant={"outline"}
+        >
           Cancel
         </Button>
-        <Button className="min-w-[15rem] lg:w-full">Complete Order</Button>
-      </div> 
+        <Button className="min-w-[15rem] lg:w-full" type="submit" onClick={handleSubmitOrder}>Complete Order</Button>
+      </div>
     </MainWarapper>
   );
 }

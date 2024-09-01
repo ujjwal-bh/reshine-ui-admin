@@ -5,6 +5,7 @@ import {
   FaCartArrowDown,
   FaExclamationTriangle,
   FaHome,
+  FaMap,
   FaMoneyBill,
   FaSignOutAlt,
   FaUser,
@@ -48,6 +49,12 @@ export default function Sidebar({active, setActive}: IProps) {
       </MenuItem>
       <MenuItem Icon={FaExclamationTriangle} path="/issues" onClick={()=> setActive(false)}>
         User Issues
+      </MenuItem>
+      <MenuItem Icon={FaMap} path="/addresses" onClick={()=> setActive(false)}>
+        Pickup Addresses
+      </MenuItem>
+      <MenuItem Icon={FaMoneyBill} path="/coupons" onClick={()=> setActive(false)}>
+        User Coupons
       </MenuItem>
       <MenuItem Icon={FaBook} path="/site-content" onClick={()=> setActive(false)}>
         Site Content

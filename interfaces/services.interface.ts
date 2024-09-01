@@ -1,9 +1,7 @@
-export interface IServiceTypes {
+import { BaseInterface } from "./baseInterface";
+
+export interface IServiceTypes extends BaseInterface {
   results: IServiceType[];
-  page: number;
-  limit: number;
-  totalPages: number;
-  totalResults: number;
 }
 
 export interface IServiceType {
@@ -14,21 +12,18 @@ export interface IServiceType {
   createdAt: string;
   updatedAt: string;
   id: string;
+  description: string;
 }
 
-export interface ILaundryServices {
-  results: ILaundryService[]
-  page: number;
-  limit: number;
-  totalPages: number;
-  totalResults: number;
+export interface ILaundryServices extends BaseInterface {
+  results: ILaundryService[];
 }
 
 export interface ILaundryService {
-        active: boolean;
-        name: string;
-        description: string| undefined
-        createdAt: string;
-        updatedAt: string;
-        id: string;
+  active: boolean;
+  name: string;
+  description: string | undefined;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 }

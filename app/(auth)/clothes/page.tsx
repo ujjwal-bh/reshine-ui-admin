@@ -70,7 +70,7 @@ export default function Clothes() {
             {cloth.name}
           </ClothesCard>
         ))}
-        {getClothesData?.totalPages > 1 && (
+        {getClothesData?.totalPages && getClothesData.totalPages > 1 && (
           <PaginationComponent
             currentPage={page}
             onPageChange={handlePageChange}

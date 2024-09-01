@@ -4,7 +4,7 @@ import SelectCard from "./SelectCard";
 
 interface IServiceProps {
   title: string;
-  Icon: React.FC;
+  Icon?: React.FC;
 }
 
 interface IProps {

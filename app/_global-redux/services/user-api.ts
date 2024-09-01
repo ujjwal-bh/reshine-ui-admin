@@ -27,7 +27,7 @@ export const userApi = createApi({
       providesTags: ["USERS"]
      
     }),
-    getUser: builder.query<any, string>({
+    getUser: builder.query<IUser, string>({
       query: (id) => `admin/users/${id}`,
       providesTags: (result, error, id) => [{ type: "USER", id }],
     }),

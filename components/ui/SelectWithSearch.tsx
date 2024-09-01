@@ -10,14 +10,16 @@ interface IProps {
   options?: Option[];
   placeholder?: string;
   setData?: React.Dispatch<React.SetStateAction<string>>;
+  data?: {label: string, value: string}
 }
 
 export default function SelectWithSearch({
   options = [],
   placeholder,
   setData,
+  data
 }: IProps) {
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(data || null);
 
   const handleChange = (option: Option | null) => {
     setSelectedOption(option);
@@ -32,7 +34,7 @@ export default function SelectWithSearch({
       options={options}
       instanceId={useId()}
       placeholder={placeholder || "placeholder"}
-      value={selectedOption}
+      value={data}
       onChange={handleChange}
       isClearable
     />

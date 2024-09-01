@@ -50,7 +50,7 @@ export default function Orders() {
             placeholder="search order by id . . ."
             className="min-w-[15rem]"
           />
-          <Filter />
+          {/* <Filter /> */}
           <Link href="/orders/order">
             <Button size={"sm"} className="min-w-32">
               Take Order

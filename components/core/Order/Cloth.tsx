@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,19 +12,42 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { useGetClothQuery } from "@/app/_global-redux/services/clothes-api";
+import { ISelectedCloth } from "@/app/(auth)/orders/order/page";
 
-export default function Cloth() {
-  const [clothCount, setClothCount] = useState(0);
+interface IProps {
+  setSelectedClothes: Dispatch<SetStateAction<ISelectedCloth[]>>;
+  selectedClothes: ISelectedCloth[];
+  cloth: string;
+  count: number;
+}
+
+export default function Cloth({ cloth, count, selectedClothes, setSelectedClothes }: IProps) {
+  const [clothCount, setClothCount] = useState(count);
+  const { data: clothData } = useGetClothQuery({ id: cloth });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleEditCloth = () => {
+    const filtered = selectedClothes.filter((clth) => clth.cloth !== cloth);
+    setSelectedClothes([...filtered, { cloth, count: clothCount }]);
+    setIsDialogOpen(false); // Close the dialog box
+  };
+
+  const handleDeleteCloth = () => {
+    const filtered = selectedClothes.filter((clth) => clth.cloth !== cloth);
+    setSelectedClothes(filtered);
+    setIsDialogOpen(false); // Close the dialog box
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger>
         <Card className="flex items-center justify-center p-4 gap-4 bg-background w-48">
           <div className="text-xl">
             <FaShirt />
           </div>
-          <h1>Tshirt</h1>
-          <h1>x 1</h1>
+          <h1>{clothData?.name}</h1>
+          <h1>x {clothCount}</h1>
         </Card>
       </DialogTrigger>
       <DialogContent>
@@ -32,11 +55,11 @@ export default function Cloth() {
           <DialogTitle>Edit Cloth</DialogTitle>
           <div className="py-4 flex flex-col gap-4">
             <div className="flex gap-4 items-center justify-between">
-              <span className="text-lg text-foreground">T shirt</span>
+              <span className="text-lg text-foreground">{clothData?.name}</span>
               <div className="flex gap-4 items-center">
                 <div
                   className="p-2 rounded-md border-2 cursor-pointer"
-                  onClick={() => setClothCount((prev) => prev - 1)}
+                  onClick={() => setClothCount((prev) => Math.max(prev - 1, 0))}
                 >
                   <FaMinus />
                 </div>
@@ -56,13 +79,14 @@ export default function Cloth() {
               </div>
             </div>
             <div className="flex gap-2 w-full">
-              <Button className="w-full">Edit</Button>
               <Button
                 variant={"outline"}
                 className="border-error text-error w-full"
+                onClick={handleDeleteCloth}
               >
-                Cancel
+                Delete
               </Button>
+              <Button className="w-full" onClick={handleEditCloth}>Edit</Button>
             </div>
           </div>
         </DialogHeader>

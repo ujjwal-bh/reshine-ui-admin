@@ -48,6 +48,13 @@ export const laundryServiceApi = createApi({
       query: (id) => `admin/pricings?service=${id}&page=1&limit=1000`,
       providesTags: ["PRICING"],
     }),
+    getAllClothPricingForService: builder.mutation<IClothServicePricings, string>({
+      query: (id) => ({
+        url: `admin/pricings?service=${id}&page=1&limit=1000`,
+        method: "GET",
+      }),
+      invalidatesTags: ["PRICING"],
+    }),
 
     createClothServicePricing: builder.mutation<any, ICreateClothServicePricing>({
       query: (body) => ({
@@ -73,8 +80,10 @@ export const {
   useDeleteServiceMutation,
   useGetAllServicesQuery,
   useGetServiceQuery,
+
   useUpdateServiceMutation,
   useCreateClothServicePricingMutation,
   useDeleteClothServicePricingMutation,
-  useGetAllClothServicePricingQuery
+  useGetAllClothServicePricingQuery,
+  useGetAllClothPricingForServiceMutation
 } = laundryServiceApi;

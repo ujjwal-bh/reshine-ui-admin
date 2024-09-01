@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
 
-import Filter from "@/components/core/Filter";
 import UserTable from "@/components/core/UserTable/UserTable";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
@@ -13,8 +12,8 @@ import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 
 
-import { FaSearch } from "react-icons/fa";
 import PaginationComponent from "@/components/core/Pagination";
+import { FaSearch } from "react-icons/fa";
 import Loading from "../loading";
 
 export default function Users() {
@@ -53,7 +52,6 @@ export default function Users() {
     return <Loading/>
   }
 
-  console.log("Users", filteredData)
   return (
     <MainWarapper>
       <div className="flex justify-between gap-2 items-center lg:flex-col lg:items-start">
@@ -67,7 +65,7 @@ export default function Users() {
             onChange={e => filterData(e.target.value)}
 
           />
-            <Filter/>
+            {/* <Filter/> */}
             <Link href="/users/user">
                 <Button size={"sm"} className="min-w-32">Add Users</Button>
             </Link>

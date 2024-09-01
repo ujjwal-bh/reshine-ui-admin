@@ -1,18 +1,20 @@
+import { BaseInterface } from "./baseInterface";
+
 export interface ICreateClothServicePricing {
   price: number;
   cloth: string;
   service: string;
 }
 
-export interface IClothServicePricings{
+export interface IClothServicePricings extends BaseInterface{
     results: IClothServicePricing[],
-    page: number;
-    limit: number;
-    totalPages: number;
-    totalResults: number;
+    // page: number;
+    // limit: number;
+    // totalPages: number;
+    // totalResults: number;
 }
 
- interface IClothServicePricing {
+ export interface IClothServicePricing {
   active: boolean;
   cloth: string
   service:string;

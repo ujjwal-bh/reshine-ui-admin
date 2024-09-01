@@ -1,3 +1,5 @@
+import { BaseInterface } from "./baseInterface";
+
 export interface IPayment {
   orderId: string;
   paymentId: string;
@@ -15,10 +17,7 @@ export interface IPayment {
   id: string
 }
 
-export interface IPayments {
+export interface IPayments extends BaseInterface {
     results: IPayment[],
-    page: number;
-    limit: number;
-    totalPages: number;
-    totalResults: number;
+
 }

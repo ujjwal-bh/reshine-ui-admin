@@ -7,6 +7,9 @@ import { clothesApi } from "./services/clothes-api";
 import { laundryServiceApi } from "./services/laundry-service-api";
 import { serviceTypeApi } from "./services/service-type-api";
 import { paymentApi } from "./services/payment-api";
+import { issuesApi } from "./services/issues-api";
+import { addressApi } from "./services/address-api";
+import { couponsApi } from "./services/coupon-api";
 
 
 export const store = configureStore({
@@ -17,7 +20,12 @@ export const store = configureStore({
     [clothesApi.reducerPath]: clothesApi.reducer,
     [laundryServiceApi.reducerPath]: laundryServiceApi.reducer,
     [serviceTypeApi.reducerPath]: serviceTypeApi.reducer,
-    [paymentApi.reducerPath]: paymentApi.reducer
+    [paymentApi.reducerPath]: paymentApi.reducer,
+    [issuesApi.reducerPath]: issuesApi.reducer,
+    [addressApi.reducerPath]: addressApi.reducer,
+    [couponsApi.reducerPath]: couponsApi.reducer,
+
+
 
 
   },
@@ -30,6 +38,9 @@ export const store = configureStore({
       .concat(laundryServiceApi.middleware)
       .concat(serviceTypeApi.middleware)
       .concat(paymentApi.middleware)
+      .concat(issuesApi.middleware)
+      .concat(addressApi.middleware)
+      .concat(couponsApi.middleware)
 });
 
 setupListeners(store.dispatch);

@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 
 interface IProps {
-  Icon: React.FC;
+  Icon?: React.FC;
   title: string;
   active?: boolean;
   onClick: () => void;
@@ -21,7 +21,10 @@ export default function SelectCard({
       onClick={onClick}
     >
       <div className="text-2xl font-black">
+        {Icon &&
+        
         <Icon />
+        }
       </div>
       <h1 className="break-words text-center">{title}</h1>
     </Card>
