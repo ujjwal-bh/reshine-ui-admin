@@ -30,7 +30,7 @@ export default function UserTable({users}: IProps) {
     <TableBody>
       {
         users?.map((user)=> (
-          <UserTableRow key={user.id} email={user.email} phone={user.phone} id={user.id} active={user.active} role={user.role} />
+          <UserTableRow key={user.id} email={user.email} phone={user.phone} id={user.id} active={user.active} role={user.role} name={user.name} />
           
         ))
       }

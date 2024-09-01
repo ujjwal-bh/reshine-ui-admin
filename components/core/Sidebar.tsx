@@ -31,7 +31,7 @@ export default function Sidebar({active, setActive}: IProps) {
       <MenuItem Icon={FaTruckFast} path="/delivery" onClick={()=> setActive(false)}>
         Delivery
       </MenuItem>
-      <MenuItem Icon={FaUser} path="/users" onClick={()=> setActive(false)}>
+      <MenuItem Icon={FaUser} path="/users?role=user&page=1" onClick={()=> setActive(false)}>
         Users
       </MenuItem>
       <MenuItem Icon={FaCartArrowDown} path="/orders" onClick={()=> setActive(false)}>

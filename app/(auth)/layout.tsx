@@ -16,7 +16,6 @@ export default function layout({
 }>) {
   return (
     <AuthWrapper>
-        <Header isAuthenticated={true}/>
         {children}
     </AuthWrapper>
   );

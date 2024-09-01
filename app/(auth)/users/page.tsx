@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -24,16 +24,36 @@ export default function Users() {
 
   const limit = 10
   const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
-  const {data: usersData, isSuccess: usersSuccess, isError: usersError, isLoading: usersLoading, isFetching: usersFetching, refetch} = useGetAllUsersQuery({page, limit})
+  const {data: usersData, isLoading: usersLoading, isFetching: usersFetching, isSuccess:usersSuccess} = useGetAllUsersQuery({page, limit, role: "user"})
+
+  const [searchName, setSearchName] = useState<string>("");
+
+
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+
+  const filterData = (value: string) => {
+    setSearchName(value);
+    const res = usersData?.results?.filter((user: any) => user.name.includes(value));
+    setFilteredData(res);
+  };
+
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    router.push(`${pathname}?page=${newPage}`);
+    router.push(`${pathname}?role=user&page=${newPage}`);
   };
 
+
+  useEffect(() => {
+    if (usersSuccess) {
+      setFilteredData(usersData?.results || []);
+    }
+  }, [usersSuccess, usersData]);
   if(usersFetching || usersLoading){
     return <Loading/>
   }
+
+  console.log("Users", filteredData)
   return (
     <MainWarapper>
       <div className="flex justify-between gap-2 items-center lg:flex-col lg:items-start">
@@ -43,6 +63,9 @@ export default function Users() {
             RightIcon={FaSearch}
             placeholder="search user by name . . ."
             className="min-w-[15rem]"
+            value={searchName}
+            onChange={e => filterData(e.target.value)}
+
           />
             <Filter/>
             <Link href="/users/user">

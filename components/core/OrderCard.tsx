@@ -22,7 +22,6 @@ export default function OrderCard({ item, className }: IProps) {
     createdAt,
   } = item;
 
-  console.log(item, "item");
 
   const handleClick = () => {
     push(`/orders/${id}`);

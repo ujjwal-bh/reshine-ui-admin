@@ -12,14 +12,13 @@ import SectionTitle from "@/components/ui/sectionTitle";
 import { orderDetailDummyData } from "@/lib/utils";
 import { useGetAllOrdersQuery } from "../_global-redux/services/order-api";
 import Loading from "./loading";
-import { query } from "@/lib/get-query";
 
 export default function Home() {
   const {
     data: getAllOrdersData,
     isLoading: getAllOrdersLoading,
     isFetching: getAllOrdersFetching,
-    isSuccess: getAllOrdersSuccess,
+    // isSuccess: getAllOrdersSuccess,
   } = useGetAllOrdersQuery({ page: 1, limit: 10 });
 
   if (getAllOrdersFetching || getAllOrdersLoading) return <Loading />;

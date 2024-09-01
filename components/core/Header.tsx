@@ -6,8 +6,9 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 interface IProps {
   isAuthenticated: boolean;
+  name?: string 
 }
-export default function Header({ isAuthenticated }: IProps) {
+export default function Header({ isAuthenticated, name }: IProps) {
   const path = usePathname();
   const [active, setActive] = useState(false);
   return (
@@ -30,8 +31,8 @@ export default function Header({ isAuthenticated }: IProps) {
             {active ? <FaTimes /> : <FaBars />}
           </div>
         )}
-        {isAuthenticated && (
-          <div className="flex lg:hidden">bhattaraiujjwal26@gmail.com</div>
+        {isAuthenticated && name &&  (
+          <div className="flex capitalize lg:hidden">{name}</div>
         )}
       </header>
       {isAuthenticated && <Sidebar active={active} setActive={setActive} />}

@@ -14,7 +14,8 @@ export interface IUser{
     id: string,
     isEmailVerified: boolean,
     phone: string
-    role: string
+    role: string,
+    name: string
 }
 
 

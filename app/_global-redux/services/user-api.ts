@@ -9,12 +9,21 @@ export const userApi = createApi({
   tagTypes: ["USERS", "USER", "ME"],
 
   endpoints: (builder) => ({
+    createUser: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `admin/users`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["USERS"]
+    })
+    ,
     getCurrentUser: builder.query<IUser, void>({
       query: () => "user",
       providesTags: ["ME"],
     }),
-    getAllUsers: builder.query<any, { page: number; limit: number }>({
-      query: ({ page, limit }) => `admin/users?page=${page}&limit=${limit}`,
+    getAllUsers: builder.query<any, { page: number; limit: number, role?: string }>({
+      query: ({ page, limit, role }) => `admin/users?${role ? 'role='+ role + '&': ''}page=${page}&limit=${limit}`,
       providesTags: ["USERS"]
      
     }),
@@ -47,4 +56,5 @@ export const {
   useDeactivateUserMutation,
   useGetUserQuery,
   useUpdateUserMutation,
+  useCreateUserMutation
 } = userApi;

@@ -1,12 +1,11 @@
-"use client"
+"use client";
 import React from "react";
-import MainWarapper from "@/components/ui/mainWarapper";
 import { Bars } from "react-loader-spinner";
 
 export default function Loading() {
   return (
-    <MainWarapper>
-      <div className="h-[80vh] flex items-center justify-center w-full">
+    <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+      <div>
         <Bars
           height="80"
           width="80"
@@ -17,6 +16,6 @@ export default function Loading() {
           visible={true}
         />
       </div>
-    </MainWarapper>
+    </div>
   );
 }

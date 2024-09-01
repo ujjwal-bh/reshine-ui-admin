@@ -10,6 +10,7 @@ interface IProps extends PropsWithChildren {}
 export default function AuthWrapper({ children }: IProps) {
 
   const {
+    data: currentUserData,
     isError: isCurrentUserError,
     error: currentUserError,
     isLoading: currentUserLoading,
@@ -24,8 +25,14 @@ export default function AuthWrapper({ children }: IProps) {
     }
   }, [isCurrentUserError]);
 
+
   if (currentUserFetching || currentUserLoading) {
     return <Loading/>
   }
-  return children;
+  return (
+    <>
+        <Header isAuthenticated={true} name={currentUserData?.name}/>
+    {children}
+    </>
+  );
 }

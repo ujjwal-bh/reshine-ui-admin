@@ -22,7 +22,7 @@ export default function Filter() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Choose filters</DialogTitle>
-            <DialogDescription>pachi halxu</DialogDescription>
+            <DialogDescription>not implemented</DialogDescription>
           </DialogHeader>
         </DialogContent>
       </Dialog>

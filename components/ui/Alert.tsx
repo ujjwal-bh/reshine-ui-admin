@@ -29,10 +29,10 @@ export default function Alert({children, confirmClick, cancelClick, ...props}: I
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
+            {/* <AlertDialogDescription>
             This action cannot be undone. This will permanently remove the
               data from our servers.
-            </AlertDialogDescription>
+            </AlertDialogDescription> */}
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-row items-center gap-4">
             <AlertDialogCancel onClick={cancelClick}>Cancel</AlertDialogCancel>

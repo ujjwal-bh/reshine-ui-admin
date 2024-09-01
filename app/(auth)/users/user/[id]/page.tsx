@@ -1,4 +1,5 @@
-"use client";
+"use client"
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import Loading from "@/app/(auth)/loading";
 import {
   useGetUserQuery,
@@ -6,14 +7,12 @@ import {
 } from "@/app/_global-redux/services/user-api";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { InputWithIcon } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import MainWarapper from "@/components/ui/mainWarapper";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { userType } from "@/lib/constants";
-import React, { SyntheticEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEnvelope, FaLock, FaLockOpen, FaUser } from "react-icons/fa";
 
@@ -32,9 +31,9 @@ interface IFormData {
   confirmPassword?: string;
   role?: string;
 }
+
 export default function EditUser({ params }: { params: { id: string } }) {
   const [formData, setFormData] = useState<IFormData>(INIT);
-  // const [active, setActive] = useState(false)
   const {
     data: userData,
     isLoading: userDataLoading,
@@ -51,10 +50,6 @@ export default function EditUser({ params }: { params: { id: string } }) {
     },
   ] = useUpdateUserMutation();
 
-  // const handleSetActive  = (val: boolean) => {
-  //   setActive(val);
-  // }
-
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
@@ -66,6 +61,7 @@ export default function EditUser({ params }: { params: { id: string } }) {
     if (formData.password?.length === 0) delete rest.password;
     await updateUser({ id: params.id, body: rest });
   };
+
   useEffect(() => {
     if (userDataSuccess) {
       setFormData({
@@ -75,7 +71,7 @@ export default function EditUser({ params }: { params: { id: string } }) {
         role: userData.role || "user",
       });
     }
-  }, [userDataSuccess]);
+  }, [userDataSuccess, userData]);
 
   useEffect(() => {
     if (updateUserError) toast.error("Something went wrong");
@@ -137,7 +133,7 @@ export default function EditUser({ params }: { params: { id: string } }) {
           />
         </div>
         <div className="flex my-2 gap-4 items-center">
-          <RadioGroup defaultValue={formData.role} onValueChange={e=> setFormData({...formData, role: e})}>
+          <RadioGroup value={formData.role} onValueChange={(e) => setFormData({ ...formData, role: e })}>
             {userType.map((type) => (
               <div className="flex items-center space-x-2" key={type}>
                 <RadioGroupItem value={type} id={type} />
