@@ -12,36 +12,70 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
 import { IClothServicePricing } from "@/interfaces/cloth-service-pricing.interface";
-import { ISelectedCloth } from "@/app/(auth)/orders/order/page";
+import { ISelectedClothServicePricing } from "@/app/(auth)/orders/order/page";
+import toast from "react-hot-toast";
 
 interface IProps {
-  allClothesData: IClothServicePricing[];
-  setClothes: Dispatch<SetStateAction<ISelectedCloth[]>>;
-  clothes: ISelectedCloth[];
+  allClothesServicePricingData: IClothServicePricing[];
+  setClothesServicePricing: Dispatch<SetStateAction<ISelectedClothServicePricing[]>>;
+  clothesServicePricing: ISelectedClothServicePricing[];
 }
 
-export default function AddCloth({ allClothesData, clothes, setClothes }: IProps) {
+export default function AddCloth({
+  allClothesServicePricingData,
+  setClothesServicePricing,
+  clothesServicePricing,
+}: IProps) {
   const [clothCount, setClothCount] = useState(0);
-  const [selectedCloth, setSelectedCloth] = useState("");
+  const [selectedClothServicePricingId, setSelectedClothServicePricingId] =
+    useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const modifyClothesData = () => {
-    return allClothesData.map((cloth) => {
-      return { label: cloth.clothInfo.name, value: cloth.clothInfo.id };
+    return allClothesServicePricingData.map((data) => {
+      return { label: data.clothInfo.name, value: data.id };
     });
   };
 
   const handleAddCloth = () => {
-    if (selectedCloth.length === 0 || clothCount === 0) return;
-    const filteredSelection = clothes.filter((cloth) => cloth.cloth !== selectedCloth);
-    setClothes([...filteredSelection, { cloth: selectedCloth, count: clothCount }]);
+    if (selectedClothServicePricingId.length === 0 || clothCount === 0){
+      toast.error("Invalid Value")
+      return;
+    } 
+
+    const filteredSelection = clothesServicePricing.filter(
+      (data) => data.servicePricingId == selectedClothServicePricingId
+    );
+    if(filteredSelection.length > 0 ){
+      toast.error("Already added. Edit to make changes.")
+      return;
+    }
+
+
+    const selectedClothesDetails = allClothesServicePricingData.filter(
+      (data) => data.id == selectedClothServicePricingId
+    );
+
+    setClothesServicePricing([
+      ...clothesServicePricing,
+      {
+        clothId: selectedClothesDetails[0]?.cloth,
+        count: clothCount,
+        clothName: selectedClothesDetails[0]?.clothInfo?.name,
+        serviceName: selectedClothesDetails[0]?.serviceInfo.name,
+        servicePricingId: selectedClothServicePricingId,
+        price: selectedClothesDetails[0]?.price
+      },
+    ]);
     setIsDialogOpen(false); // Close the dialog box
   };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="w-max">
-        <div className="w-48 bg-primary p-3 text-background rounded-md">Add Cloth</div>
+        <div className="w-48 bg-primary p-3 text-background rounded-md">
+          Add Cloth
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -52,7 +86,7 @@ export default function AddCloth({ allClothesData, clothes, setClothes }: IProps
                 <SelectWithSearch
                   placeholder="Select cloth"
                   options={modifyClothesData()}
-                  setData={setSelectedCloth}
+                  setData={setSelectedClothServicePricingId}
                 />
               </span>
               <div className="flex gap-4 items-center">
@@ -65,7 +99,9 @@ export default function AddCloth({ allClothesData, clothes, setClothes }: IProps
                 <Input
                   className="w-12 text-lg font-black text-foreground text-center"
                   value={clothCount}
-                  onChange={(e) => setClothCount(Number(e.target.value) || clothCount)}
+                  onChange={(e) =>
+                    setClothCount(Number(e.target.value) || clothCount)
+                  }
                 />
                 <div
                   className="p-2 rounded-md border-2 cursor-pointer"

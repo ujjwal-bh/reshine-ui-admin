@@ -30,7 +30,7 @@ export default function SelectWithSearch({
 
   return (
     <Select
-      className="w-full"
+      className="w-full z-100"
       options={options}
       instanceId={useId()}
       placeholder={placeholder || "placeholder"}

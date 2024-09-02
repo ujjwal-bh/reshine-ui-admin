@@ -23,5 +23,9 @@ export interface IClothServicePricings extends BaseInterface{
     name: string;
     id: string;
   };
+  serviceInfo: {
+    name: string,
+    id: string
+  }
   id: string
 }
