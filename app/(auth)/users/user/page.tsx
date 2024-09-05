@@ -1,15 +1,16 @@
 "use client"
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useCreateUserMutation } from "@/app/_global-redux/services/user-api";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { ApiError } from "@/interfaces/api-error.interface";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaEnvelope, FaEyeSlash, FaLock, FaPhoneAlt, FaUser } from "react-icons/fa";
 
 const INIT = {
@@ -21,7 +22,7 @@ const INIT = {
   phone: "",
   role: "user"
 };
-export default function AddUser() {
+export default function AddUserPage() {
   const [formData, setFormData] = useState(INIT);
   const [showPass, setShowPass] = useState(false)
   const [showConfirmPass, setShowConfirmPass] = useState(false)
@@ -46,7 +47,7 @@ export default function AddUser() {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
   // const handleCheckboxChange = (checked: boolean) => {
   //   setFormData({ ...formData, active: checked });
@@ -56,7 +57,7 @@ export default function AddUser() {
       if(isSuccess){
         router.push("/users")
       }
-  }, [isSuccess])
+  }, [isSuccess, router])
 
   return (
     <MainWarapper>

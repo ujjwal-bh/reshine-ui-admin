@@ -1,17 +1,19 @@
 "use client"
 import { useEffect, useState } from "react";
+
 import { useCreateIssueTypeMutation, useDeleteIssueTypeMutation, useGetAllIssueTypesQuery } from "@/app/_global-redux/services/issues-api";
-import IssueTable from "@/components/core/IssueTable/IssueTable";
+
+import toast from "react-hot-toast";
+import { FaSearch } from "react-icons/fa";
 import MiniCard from "@/components/ui/MiniCard";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 
-import { FaSearch } from "react-icons/fa";
-import toast from "react-hot-toast";
+import IssueTable from "@/components/core/IssueTable/IssueTable";
 
-export default function Issues() {
+export default function IssuesPage() {
   const [issueType, setIssueType] = useState("")
 
   const [createIssueType, {isSuccess: createIssueTypeSuccess, isError: createIssueTypeError, isLoading: createIssueTypeLoading}] = useCreateIssueTypeMutation()

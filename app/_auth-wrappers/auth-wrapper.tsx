@@ -1,38 +1,50 @@
 "use client";
-import React, { PropsWithChildren, useEffect } from "react";
-import { ApiError } from "@/interfaces/api-error.interface";
-import { redirect, usePathname } from "next/navigation";
+import { useEffect } from 'react';
+import { redirect, usePathname } from 'next/navigation';
+
 import Header from "@/components/core/Header";
+import Loader from "@/components/ui/loader";
+
+import { ApiError } from "@/interfaces/api-error.interface";
 import { useGetCurrentUserQuery } from "../_global-redux/services/user-api";
-import Loading from "../(auth)/loading";
 
-interface IProps extends PropsWithChildren {}
+interface IProps {
+  children: React.ReactNode;
+}
+
 export default function AuthWrapper({ children }: IProps) {
-
   const {
     data: currentUserData,
     isError: isCurrentUserError,
     error: currentUserError,
     isLoading: currentUserLoading,
     isFetching: currentUserFetching,
+    isSuccess: currentUserSuccess
   } = useGetCurrentUserQuery();
 
   useEffect(() => {
-    if (isCurrentUserError) {
-      if ((currentUserError as ApiError).status === 401) {
+    if (isCurrentUserError && currentUserError) {
+      const error = currentUserError as ApiError;
+      if (error.status === 401) {
+        console.log(localStorage.getItem("RESHINE_ACCESS_TOKEN"), "Access token");
+        redirect("/login"); 
       }
-      redirect("/login");
     }
-  }, [isCurrentUserError]);
 
+  }, [isCurrentUserError, currentUserError, currentUserSuccess]);
 
   if (currentUserFetching || currentUserLoading) {
-    return <Loading/>
+    return <Loader />;
   }
+
+  if (isCurrentUserError && !((currentUserError as ApiError).status === 401)) {
+    return <div>Something went wrong</div>;
+  }
+
   return (
     <>
-        <Header isAuthenticated={true} name={currentUserData?.name}/>
-    {children}
+      <Header isAuthenticated={!!currentUserData} name={currentUserData?.name} />
+      {children}
     </>
   );
 }

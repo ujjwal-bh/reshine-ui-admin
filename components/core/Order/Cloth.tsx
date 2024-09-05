@@ -110,7 +110,7 @@ export default function Cloth({
             <div className="flex gap-2 w-full">
               <Button
                 variant={"outline"}
-                className="border-error text-error w-full"
+                className="border-error text-error w-full hover:text-error"
                 onClick={handleDeleteCloth}
               >
                 Delete

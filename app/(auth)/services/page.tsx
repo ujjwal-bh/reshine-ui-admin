@@ -1,23 +1,20 @@
 "use client";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
-  useGetAllServicesQuery,
-  useUpdateServiceMutation,
+  useGetAllServicesQuery
 } from "@/app/_global-redux/services/laundry-service-api";
 import {
-  useDeleteServiceTypeMutation,
-  useGetAllServiceTypesQuery,
-  useUpdateServiceTypeMutation,
+  useGetAllServiceTypesQuery
 } from "@/app/_global-redux/services/service-type-api";
-import toast from "react-hot-toast";
-import ServiceTable from "@/components/core/ServiceTable/ServiceTable";
+
+import { Button } from "@/components/ui/button";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { Button } from "@/components/ui/button";
-import {useRouter} from "next/navigation"
+
+import ServiceTable from "@/components/core/ServiceTable/ServiceTable";
 import WashTypeTable from "@/components/core/WashTypeTable/WashTypeTable";
 
-export default function page() {
+export default function ServicesPage() {
 
   const router = useRouter()
   const { data: serviceTypesData } = useGetAllServiceTypesQuery({

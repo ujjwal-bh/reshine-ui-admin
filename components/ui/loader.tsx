@@ -2,7 +2,7 @@
 import React from "react";
 import { Bars } from "react-loader-spinner";
 
-export default function Loading() {
+export default function Loader() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
       <div>

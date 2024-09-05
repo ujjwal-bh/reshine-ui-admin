@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { ApiError } from "@/interfaces/api-error.interface";
+import { useCreateUserMutation } from "@/app/_global-redux/services/user-api";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { FaEnvelope, FaEyeSlash, FaLock, FaPhoneAlt, FaUser } from "react-icons/fa";
-import { useCreateUserMutation } from "@/app/_global-redux/services/user-api";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { ApiError } from "@/interfaces/api-error.interface";
 
 const INIT = {
   name: "",
@@ -22,7 +23,7 @@ const INIT = {
   phone: ""
 };
 
-export default function AddDeliveryUser() {
+export default function AddDeliveryUserPage() {
   const router  = useRouter()
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -47,7 +48,7 @@ export default function AddDeliveryUser() {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
   // const handleCheckboxChange = (checked: boolean) => {
   //   setFormData({ ...formData, active: checked });
@@ -57,7 +58,7 @@ export default function AddDeliveryUser() {
       if(isSuccess){
         router.push("/delivery")
       }
-  },[isSuccess])
+  },[isSuccess, router])
 
   return (
     <MainWarapper>

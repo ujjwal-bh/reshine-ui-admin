@@ -57,6 +57,7 @@ const InputWithIcon = React.forwardRef<HTMLInputElement, InputWithIconProps>(
     );
   }
 );
+InputWithIcon.displayName = "InputWithIcon"
 
 const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
   (
@@ -104,5 +105,6 @@ const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
     );
   }
 );
+InputWithLabel.displayName = "InputWithLabel"
 
 export { Input, InputWithIcon, InputWithLabel };

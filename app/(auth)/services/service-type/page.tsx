@@ -1,18 +1,20 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useCreateServiceTypeMutation } from "@/app/_global-redux/services/service-type-api";
+
+import { RATE_TYPE } from "@/lib/constants";
+import { ApiError } from "@/interfaces/api-error.interface";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { Textarea } from "@/components/ui/textarea";
-import { ApiError } from "@/interfaces/api-error.interface";
-import { RATE_TYPE } from "@/lib/constants";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaMonero, FaPen, FaPercent } from "react-icons/fa";
 
 const INIT = {
@@ -20,7 +22,7 @@ const INIT = {
   description: "",
   rate: 0,
 };
-export default function AddService() {
+export default function AddServicePage() {
   const [formData, setFormData] = useState(INIT);
   const [rateType, setRateType] = useState("");
   const router = useRouter();
@@ -41,13 +43,13 @@ export default function AddService() {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
   useEffect(() => {
     if (isSuccess) {
       router.push("/services");
     }
-  }, [isSuccess]);
+  }, [isSuccess, router]);
 
   return (
     <MainWarapper>

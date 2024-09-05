@@ -1,21 +1,21 @@
 "use client";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
 
-import Filter from "@/components/core/Filter";
-import PaginationComponent from "@/components/core/Pagination";
-import UserTable from "@/components/core/UserTable/UserTable";
+import { FaSearch } from "react-icons/fa";
+import Loader from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { FaSearch } from "react-icons/fa";
-import Loading from "../loading";
 
-export default function Delivery() {
+import PaginationComponent from "@/components/core/Pagination";
+import UserTable from "@/components/core/UserTable/UserTable";
+
+export default function DeliveryPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,7 +54,7 @@ export default function Delivery() {
   };
 
   if (usersFetching || usersLoading) {
-    return <Loading />;
+    return <Loader />;
   }
 
 

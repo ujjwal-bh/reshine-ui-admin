@@ -2,18 +2,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-
 import { useGetAllcouponsQuery } from "@/app/_global-redux/services/coupon-api";
+
+import Loader from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { ICoupon } from "@/interfaces/coupons.interface";
-import { FaSearch } from "react-icons/fa";
 import CouponTable from "@/components/core/CouponTable/CouponTable";
-import Loading from "../loading";
+import { FaSearch } from "react-icons/fa";
 
-export default function Coupon() {
+export default function CouponsPage() {
   const [searchCoupon, setSearchCoupon] = useState<string>("");
   const { data: couponsData, isLoading: getCouponsLoading, isFetching: getCouponsFetching, isSuccess: getCouponsSuccess, refetch } = useGetAllcouponsQuery({ page: 1, limit: 1000});
   const [filteredData, setFilteredData] = useState<ICoupon[]>([]);
@@ -37,7 +37,7 @@ export default function Coupon() {
 
 
   if (getCouponsFetching || getCouponsLoading) {
-    return <Loading />;
+    return <Loader />;
   }
 
 

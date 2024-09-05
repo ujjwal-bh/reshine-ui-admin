@@ -1,41 +1,45 @@
-
 "use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { useCreateAddressMutation } from "@/app/_global-redux/services/address-api";
+
+import { ApiError } from "@/interfaces/api-error.interface";
+import { LocationType } from "@/interfaces/address.interface";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { ApiError } from "@/interfaces/api-error.interface";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { FaCity, FaMap, FaMoneyBill } from "react-icons/fa";
-import { FaLocationPin, FaMapLocation } from "react-icons/fa6";
-import locationJson from "@/lib/statesCities.json"
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { LocationType } from "@/interfaces/address.interface";
+import { FaMap, FaMoneyBill } from "react-icons/fa";
+import { FaLocationPin, FaMapLocation } from "react-icons/fa6";
+import locationJson from "@/lib/statesCities.json";
+
 const INIT = {
- landmark: "",
- address: "",
- pincode: "",
-    deliveryCharge: 0
+  landmark: "",
+  address: "",
+  pincode: "",
+  deliveryCharge: 0,
 };
 
-export default function Address() {
-    const location: LocationType = locationJson;
-  const router  = useRouter()
+export default function AddressPage() {
+  const router = useRouter();
+  const location: LocationType = locationJson;
   const [formData, setFormData] = useState(INIT);
 
-  const [state, setState] = useState("")
-  const [city, setCity] = useState("")
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
 
-  const [createAddress, { isLoading, isError, isSuccess, error }] = useCreateAddressMutation();
+  const [createAddress, { isLoading, isError, isSuccess, error }] =
+    useCreateAddressMutation();
 
   const handleCreateAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-   
-    await createAddress({...formData, state,city});
+
+    await createAddress({ ...formData, state, city });
   };
 
   useEffect(() => {
@@ -45,28 +49,27 @@ export default function Address() {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
-
-  useEffect(()=> {
-      if(isSuccess){
-        router.push("/addresses")
-      }
-  },[isSuccess])
-
-  
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/addresses");
+    }
+  }, [isSuccess, router]);
 
   const getAllStates = () => {
-    return Object.keys(location).map((state)=> {
-        return {label: state, value: state}
-    })
-  }
+    return Object.keys(location).map((state) => {
+      return { label: state, value: state };
+    });
+  };
 
   const getCity = () => {
-    return location[state]?.map((city: string)=> {
-        return {label: city, value: city}
-    }) || []
-  }
+    return (
+      location[state]?.map((city: string) => {
+        return { label: city, value: city };
+      }) || []
+    );
+  };
 
   return (
     <MainWarapper>
@@ -74,9 +77,10 @@ export default function Address() {
         <Back />
         <SectionTitle>Add Address</SectionTitle>
       </div>
-      <form className="w-[50%] flex flex-col gap-4 lg:w-full" onSubmit={handleCreateAddress}>
-      
-
+      <form
+        className="w-[50%] flex flex-col gap-4 lg:w-full"
+        onSubmit={handleCreateAddress}
+      >
         <div className="flex flex-col gap-2">
           <label htmlFor="state">State</label>
           <SelectWithSearch
@@ -100,7 +104,9 @@ export default function Address() {
             placeholder="Detailed address"
             LeftIcon={FaMap}
             value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, address: e.target.value })
+            }
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -110,7 +116,9 @@ export default function Address() {
             LeftIcon={FaMapLocation}
             type="text"
             value={formData.landmark}
-            onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, landmark: e.target.value })
+            }
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -120,7 +128,9 @@ export default function Address() {
             placeholder="E.g 546790"
             LeftIcon={FaLocationPin}
             value={formData.pincode}
-            onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, pincode: e.target.value })
+            }
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -130,13 +140,22 @@ export default function Address() {
             placeholder="E.g 100"
             LeftIcon={FaMoneyBill}
             value={formData.deliveryCharge}
-            onChange={(e) => setFormData({ ...formData, deliveryCharge: Number(e.target.value) })}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                deliveryCharge: Number(e.target.value),
+              })
+            }
           />
         </div>
 
-       
         <div>
-          <Button className="w-48" type="submit" disabled={isLoading} onClick={handleCreateAddress}>
+          <Button
+            className="w-48"
+            type="submit"
+            disabled={isLoading}
+            onClick={handleCreateAddress}
+          >
             {isLoading ? "Adding..." : "Add Address"}
           </Button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useGetAllAddressesQuery } from "@/app/_global-redux/services/address-api";
+
 import {
   useGetAllClothPricingForServiceMutation,
   useGetAllServicesQuery,
@@ -8,19 +9,22 @@ import {
 import { useCreateOrderMutation } from "@/app/_global-redux/services/order-api";
 import { useGetAllServiceTypesQuery } from "@/app/_global-redux/services/service-type-api";
 import { useGetAllUsersQuery } from "@/app/_global-redux/services/user-api";
-import AddCloth from "@/components/core/Order/AddCloth";
-import Cloth from "@/components/core/Order/Cloth";
-import OrderDetail from "@/components/core/Order/OrderDetail";
+
+import { IUser } from "@/interfaces/login.interface";
+import { IAddress } from "@/interfaces/address.interface";
+import { ILaundryService, IServiceType } from "@/interfaces/services.interface";
+import { IClothServicePricing } from "@/interfaces/cloth-service-pricing.interface";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { IAddress } from "@/interfaces/address.interface";
-import { IClothServicePricing } from "@/interfaces/cloth-service-pricing.interface";
-import { IUser } from "@/interfaces/login.interface";
-import { ILaundryService, IServiceType } from "@/interfaces/services.interface";
-import toast from "react-hot-toast";
+
+import Cloth from "@/components/core/Order/Cloth";
+import OrderDetail from "@/components/core/Order/OrderDetail";
+import AddCloth from "@/components/core/Order/AddCloth";
 
 export interface ISelectedClothServicePricing {
   clothId: string;
@@ -30,7 +34,7 @@ export interface ISelectedClothServicePricing {
   clothName: string;
   price: number;
 }
-export default function AddOrder() {
+export default function AddOrderPage() {
   const [user, setUser] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   // const [pickupDate, setPickupDate] = useState<Date>();
@@ -109,15 +113,14 @@ export default function AddOrder() {
     e.preventDefault();
 
     const orderItems = selectedClothesServicePricing.map((item) => {
-      return { id: item.servicePricingId, count: item.count };
+      return { clothServicePrice: item.servicePricingId, quantity: item.count };
     });
 
     await createOrder({
       address: pickupAddress,
       user,
       serviceType,
-      service: washType,
-      orderItems,
+      items: orderItems,
     });
   };
 
@@ -161,7 +164,7 @@ export default function AddOrder() {
             <div className="w-full">
               {/* <label htmlFor="date">Select Pickup date</label>
               <DatePicker setDate={setPickupDate} date={pickupDate} /> */}
-              <h1 className="font-bold">Select Service Type</h1>
+              <h1 className="">Select Service Type</h1>
               <SelectWithSearch
                 options={modifyServiceTypesArray(
                   allServiceTypes?.results || []
@@ -225,7 +228,7 @@ export default function AddOrder() {
       </div>
       <div className="flex gap-2 mt-8 flex-wrap">
         <Button
-          className="min-w-[15rem] border-error text-error lg:w-full"
+          className="min-w-[15rem] border-error text-error lg:w-full hover:text-error"
           variant={"outline"}
         >
           Cancel

@@ -18,10 +18,6 @@ export const userApi = createApi({
       invalidatesTags: ["USERS"]
     })
     ,
-    getCurrentUser: builder.query<IUser, void>({
-      query: () => "user",
-      providesTags: ["ME"],
-    }),
     getAllUsers: builder.query<any, { page: number; limit: number, role?: string }>({
       query: ({ page, limit, role }) => `admin/users?${role ? 'role='+ role + '&': ''}page=${page}&limit=${limit}`,
       providesTags: ["USERS"]
@@ -47,14 +43,18 @@ export const userApi = createApi({
       invalidatesTags: ["USERS"]
       
     }),
+    getCurrentUser: builder.query<IUser, void>({
+      query: () => "user",
+      providesTags: ["ME"]
+    }),
   }),
 });
 
 export const {
-  useGetCurrentUserQuery,
   useGetAllUsersQuery,
   useDeactivateUserMutation,
   useGetUserQuery,
   useUpdateUserMutation,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useGetCurrentUserQuery
 } = userApi;

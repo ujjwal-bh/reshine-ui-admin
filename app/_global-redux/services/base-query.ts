@@ -58,7 +58,6 @@ const baseQuery = fetchBaseQuery({
         result = await baseQuery(args, api, extraOptions);
       }
     } else {
-      console.log("yo ni bhayena");
       return result;
     }
   }

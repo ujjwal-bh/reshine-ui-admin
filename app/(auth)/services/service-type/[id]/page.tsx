@@ -2,15 +2,15 @@
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useEffect, useState } from "react";
 
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
-import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { Button, ButtonWithPopup } from "@/components/ui/button";
+import { FaMoneyBill } from "react-icons/fa";
+import { Textarea } from "@/components/ui/textarea";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { Textarea } from "@/components/ui/textarea";
-import toast from "react-hot-toast";
-import { FaMoneyBill } from "react-icons/fa";
+import SelectWithSearch from "@/components/ui/SelectWithSearch";
+import { Button, ButtonWithPopup } from "@/components/ui/button";
 
 import {
   useDeleteServiceTypeMutation,
@@ -19,7 +19,7 @@ import {
 } from "@/app/_global-redux/services/service-type-api";
 import { RATE_TYPE } from "@/lib/constants";
 
-export default function page({ params }: { params: { id: string } }) {
+export default function UpdateServiceTypePage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [data, setData] = useState({
     name: "",
@@ -56,14 +56,15 @@ export default function page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (serviceSuccess) {
+      const {name, description, rate, rateType} = serviceTypeData
       setData({
-        name: serviceTypeData?.name,
-        description: serviceTypeData?.description || "",
-        rate: serviceTypeData?.rate,
+        name,
+        description,
+        rate,
       });
-      setRateType(serviceTypeData?.rateType || "");
+      setRateType(rateType || "");
     }
-  }, [serviceSuccess]);
+  }, [serviceSuccess, serviceTypeData]);
 
   useEffect(() => {
     if (updateServiceTypeError) {
@@ -82,7 +83,7 @@ export default function page({ params }: { params: { id: string } }) {
       toast.success("Operation successful.");
       router.push("/services");
     }
-  }, [deleteServiceTypeError, deleteServiceTypeSuccess]);
+  }, [deleteServiceTypeError, deleteServiceTypeSuccess, router]);
 
   return (
     <MainWarapper>

@@ -53,7 +53,7 @@ export default function CouponTableRow({coupon}: IProps) {
 
     <TableCell>{daysUntil(coupon.expiry)}</TableCell>
 
-    <TableCell><span className={cn("py-2 px-4 text-center rounded-md cursor-pointer", {"text-primary bg-primaryTransparent": expiryDays > 0 ,"text-error bg-errorTransparent": !(expiryDays > 0)})} onClick={handleExpireCoupon}>{expiryDays > 0 ? "Expire Coupon": "Expired"}</span></TableCell>
+    <TableCell><div className={cn("py-2  px-4 text-center rounded-md cursor-pointer", {"text-primary bg-primaryTransparent": expiryDays > 0 ,"text-error bg-errorTransparent": !(expiryDays > 0)})} onClick={handleExpireCoupon}>{expiryDays > 0 ? "Expire Coupon": "Expired"}</div></TableCell>
 
     
     <TableCell className="flex gap-2 justify-center">

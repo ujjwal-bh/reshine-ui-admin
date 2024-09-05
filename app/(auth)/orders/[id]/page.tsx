@@ -1,24 +1,23 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { notFound } from "next/navigation";
 
 import {
   useGetOrderQuery,
   useUpdateOrderMutation,
 } from "@/app/_global-redux/services/order-api";
-import Loading from "../../loading";
 
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
+import Loader from "@/components/ui/loader";
+import { FaCheckCircle } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import toast from "react-hot-toast";
-import { FaCheckCircle } from "react-icons/fa";
-import { IOrderInOrders } from "@/interfaces/order.interface";
-import { cn } from "@/lib/utils";
-import { notFound } from "next/navigation";
 
-export default function Order({ params }: { params: { id: string } }) {
+export default function SingleOrderPage({ params }: { params: { id: string } }) {
   const {
     data: orderData,
     isLoading: orderLoading,
@@ -62,7 +61,7 @@ export default function Order({ params }: { params: { id: string } }) {
     }
   }, [updateOrderSuccess]);
 
-  if (orderFetching || orderLoading) return <Loading />;
+  if (orderFetching || orderLoading) return <Loader />;
 
   if(isOrderError) return notFound()
 

@@ -1,16 +1,19 @@
 "use client"
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import { useGetAllPaymentsQuery } from "@/app/_global-redux/services/payment-api";
-import Filter from "@/components/core/Filter";
-import PaginationComponent from "@/components/core/Pagination";
-import PaymentTable from "@/components/core/PaymentTable/PaymentTable";
+
+import { FaSearch } from "react-icons/fa";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
 
-export default function PaymentDetails() {
+import Filter from "@/components/core/Filter";
+import PaginationComponent from "@/components/core/Pagination";
+import PaymentTable from "@/components/core/PaymentTable/PaymentTable";
+
+export default function PaymentDetailsPage() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -27,8 +30,12 @@ export default function PaymentDetails() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    router.push(`${pathname}?page=${newPage}&limit=${limit}`);
   };
+  
+  useEffect(() => {
+    router.push(`${pathname}?page=${page}&limit=${limit}`);
+  }, [page, pathname, router]);
+  
   return (
     <MainWarapper>
       <div className="flex gap-4 justify-between items-center lg:flex-col lg:items-start">

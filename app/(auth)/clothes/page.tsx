@@ -1,12 +1,13 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
   useCreateClothMutation,
   useGetAllClothesQuery,
 } from "@/app/_global-redux/services/clothes-api";
 
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
@@ -14,9 +15,8 @@ import SectionTitle from "@/components/ui/sectionTitle";
 
 import ClothesCard from "@/components/core/clothes/ClothesCard";
 import PaginationComponent from "@/components/core/Pagination";
-import toast from "react-hot-toast";
 
-export default function Clothes() {
+export default function ClothesPage() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();

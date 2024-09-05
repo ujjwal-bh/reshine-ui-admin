@@ -1,22 +1,24 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { useCreateServiceMutation } from "@/app/_global-redux/services/laundry-service-api";
+import { ApiError } from "@/interfaces/api-error.interface";
+
+import toast from "react-hot-toast";
+import { FaPen } from "react-icons/fa";
 import Back from "@/components/ui/Back";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import { Textarea } from "@/components/ui/textarea";
-import { ApiError } from "@/interfaces/api-error.interface";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { FaPen } from "react-icons/fa";
 
 const INIT = {
   name: "",
   description: "",
 };
-export default function AddWashType() {
+export default function AddWashTypePage() {
   const [formData, setFormData] = useState(INIT);
   const router = useRouter()
   
@@ -35,14 +37,14 @@ export default function AddWashType() {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
 
   useEffect(()=> {
       if(isSuccess){
         router.push("/services")
       }
-  }, [isSuccess])
+  }, [isSuccess, router])
 
 
 

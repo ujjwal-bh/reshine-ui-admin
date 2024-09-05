@@ -1,14 +1,14 @@
 "use client"
+import React from "react";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import React from "react";
 import {FaEnvelope, FaLock, FaLockOpen, FaUser } from "react-icons/fa";
 
-export default function EditDeliveryUser() {
+export default function EditDeliveryUserPage() {
     
   return (
     <MainWarapper>

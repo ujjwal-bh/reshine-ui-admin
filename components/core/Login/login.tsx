@@ -10,7 +10,7 @@ import { FaEnvelope, FaEyeSlash, FaLock } from "react-icons/fa";
 // api
 import Error from "@/components/ui/error";
 import { ApiError } from "@/interfaces/api-error.interface";
-import { useLoginMutation } from "@/app/_global-redux/services/api";
+import { useLoginMutation } from "@/app/_global-redux/services/auth-api";
 import toast from "react-hot-toast";
 import { ILoginData } from "@/interfaces/login.interface";
 
@@ -25,27 +25,28 @@ export default function Login() {
   const [showPass, setShowPass] = useState(false);
   const [cred, setCred] = useState({ email: "", password: "" });
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await login(cred);
+      const data = await login(cred); // Adjust this as necessary
+
   };
 
   useEffect(() => {
-    if (loginSuccess){
+    if (loginSuccess) {
       toast.success("Login successful");
-      console.log(loginData, "data")
-
-      localStorage.setItem("RESHINE_ACCESS_TOKEN", (loginData as ILoginData).tokens.access.token || "")
-      localStorage.setItem("RESHINE_REFRESH_TOKEN", (loginData as ILoginData).tokens.refresh.token || "")
-      push("/");
-    } 
-  }, [loginSuccess]);
+      if(loginData){
+        localStorage.setItem("RESHINE_ACCESS_TOKEN", (loginData as ILoginData).tokens.access.token || "");
+        localStorage.setItem("RESHINE_REFRESH_TOKEN", (loginData as ILoginData).tokens.refresh.token || "");
+        push("/");
+      }
+    }
+  }, [loginSuccess, loginData, push]);
 
   useEffect(() => {
     if (isLoginError) {
-    toast.error("Something went wrong");
+      toast.error((loginError as ApiError).data.message);
     }
-  }, [loginError]);
+  }, [isLoginError]);
   return (
     <>
       <form className="mt-16 md:mt-8 md:w-full">

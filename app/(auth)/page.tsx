@@ -11,17 +11,16 @@ import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { orderDetailDummyData } from "@/lib/utils";
 import { useGetAllOrdersQuery } from "../_global-redux/services/order-api";
-import Loading from "./loading";
+import Loader from "@/components/ui/loader";
 
 export default function Home() {
   const {
     data: getAllOrdersData,
     isLoading: getAllOrdersLoading,
     isFetching: getAllOrdersFetching,
-    // isSuccess: getAllOrdersSuccess,
   } = useGetAllOrdersQuery({ page: 1, limit: 10 });
 
-  if (getAllOrdersFetching || getAllOrdersLoading) return <Loading />;
+  if (getAllOrdersFetching || getAllOrdersLoading) return <Loader />;
   return (
     <MainWarapper>
       <div className="flex gap-4 overflow-x-scroll no-scrollbar">

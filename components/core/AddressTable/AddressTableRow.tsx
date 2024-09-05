@@ -30,7 +30,7 @@ export default function AddressTableRow({address}: IProps) {
     <TableCell>{address.city}</TableCell>
     <TableCell>{address.state}</TableCell>
     <TableCell>{address.pincode}</TableCell>
-    <TableCell>{address.deliveryCharge}</TableCell>
+    <TableCell>Rs {address.deliveryCharge}</TableCell>
 
     <TableCell><span className={cn("py-2 px-4 text-center rounded-md cursor-pointer", {"text-primary bg-primaryTransparent": address.active ,"text-error bg-errorTransparent": !address.active})} onClick={handleToggleAddressActive}>{address.active ? "Active": "Inactive"}</span></TableCell>
 

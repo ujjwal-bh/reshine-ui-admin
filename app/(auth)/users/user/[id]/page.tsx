@@ -1,19 +1,22 @@
 "use client"
 import React, { SyntheticEvent, useEffect, useState } from "react";
-import Loading from "@/app/(auth)/loading";
+
 import {
   useGetUserQuery,
   useUpdateUserMutation,
 } from "@/app/_global-redux/services/user-api";
+
+import { userType } from "@/lib/constants";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
+import Loader from "@/components/ui/loader";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import SectionTitle from "@/components/ui/sectionTitle";
 import MainWarapper from "@/components/ui/mainWarapper";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SectionTitle from "@/components/ui/sectionTitle";
-import { userType } from "@/lib/constants";
-import toast from "react-hot-toast";
 import { FaEnvelope, FaLock, FaLockOpen, FaUser } from "react-icons/fa";
 
 const INIT = {
@@ -32,7 +35,7 @@ interface IFormData {
   role?: string;
 }
 
-export default function EditUser({ params }: { params: { id: string } }) {
+export default function EditUserPage({ params }: { params: { id: string } }) {
   const [formData, setFormData] = useState<IFormData>(INIT);
   const {
     data: userData,
@@ -79,7 +82,7 @@ export default function EditUser({ params }: { params: { id: string } }) {
     if (updateUserSuccess) toast.success("User updated successfully");
   }, [updateUserError, updateUserSuccess]);
 
-  if (userDataFetching || userDataLoading) return <Loading />;
+  if (userDataFetching || userDataLoading) return <Loader />;
 
   return (
     <MainWarapper>

@@ -14,9 +14,9 @@ import SectionTitle from "@/components/ui/sectionTitle";
 
 import PaginationComponent from "@/components/core/Pagination";
 import { FaSearch } from "react-icons/fa";
-import Loading from "../loading";
+import Loader from "@/components/ui/loader";
 
-export default function Users() {
+export default function UsersPage() {
   const router = useRouter()
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -39,7 +39,6 @@ export default function Users() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    router.push(`${pathname}?role=user&page=${newPage}`);
   };
 
 
@@ -48,8 +47,13 @@ export default function Users() {
       setFilteredData(usersData?.results || []);
     }
   }, [usersSuccess, usersData]);
+
+useEffect(()=> {
+  router.push(`${pathname}?role=user&page=${page}`);
+}, [page, pathname, router])
+
   if(usersFetching || usersLoading){
-    return <Loading/>
+    return <Loader/>
   }
 
   return (
@@ -71,7 +75,7 @@ export default function Users() {
             </Link>
         </div>
       </div>
-      <UserTable users={usersData.results}/>
+      <UserTable users={filteredData}/>
       <PaginationComponent 
        currentPage={page}
        totalPages={usersData?.totalPages || 1}

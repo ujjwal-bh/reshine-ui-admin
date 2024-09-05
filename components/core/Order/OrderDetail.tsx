@@ -26,13 +26,20 @@ const OrderDetail = ({
   );
 
   const serviceTypeCost =
-    (serviceTypeData?.rateType == "percentage"
+    serviceTypeData?.rateType === "percentage"
       ? (serviceTypeData?.rate / 100) * subTotalOfClothes
-      : serviceTypeData?.rate) || 0;
+      : serviceTypeData?.rate || 0;
 
-  const subTotal = subTotalOfClothes + serviceTypeCost;
-  const tax = TAX_RATE * subTotal;
-  const total = subTotal + tax;
+  const roundedServiceTypeCost = parseFloat(serviceTypeCost.toFixed(2));
+
+  const subTotal = parseFloat(
+    (subTotalOfClothes + roundedServiceTypeCost).toFixed(2)
+  );
+
+  const tax = parseFloat((TAX_RATE * subTotal).toFixed(2));
+
+  const total = parseFloat((subTotal + tax).toFixed(2));
+
   return (
     <div className="w-full">
       <SectionTitle>Order details</SectionTitle>

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import AddCloth from "@/components/core/Order/AddCloth";
 import { Card } from "@/components/ui/card";
 
-export default function EditOrder() {
+export default function EditOrderPage() {
   return (
     <MainWarapper>
       <div className="flex items-center gap-8 justify-between pb-4 border-b-2 border-gray-100">
@@ -28,7 +28,7 @@ export default function EditOrder() {
           <SelectWithSearch />
           <div className="flex gap-4">
             <SelectWithSearch />
-            <DatePicker />
+            {/* <DatePicker /> */}
           </div>
           <div className="flex gap-4 mt-4 lg:flex-col">
             <div className="flex w-[50%] flex-col gap-2 lg:w-full">
@@ -56,14 +56,14 @@ export default function EditOrder() {
           <div className="flex flex-col gap-2 mt-4">
             <h1>Clothes</h1>
             <div className="flex gap-4 flex-wrap">
+              {/* <Cloth />
               <Cloth />
               <Cloth />
               <Cloth />
-              <Cloth />
-              <Cloth />
+              <Cloth /> */}
             </div>
             <div className="mt-4">
-              <AddCloth />
+              {/* <AddCloth /> */}
             </div>
             
           </div>

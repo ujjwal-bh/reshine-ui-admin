@@ -1,23 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
-  useCreateAddressMutation,
   useGetAddressQuery,
   useUpdateAddressMutation,
 } from "@/app/_global-redux/services/address-api";
+
+import { LocationType } from "@/interfaces/address.interface";
+import { ApiError } from "@/interfaces/api-error.interface";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { LocationType } from "@/interfaces/address.interface";
-import { ApiError } from "@/interfaces/api-error.interface";
-import locationJson from "@/lib/statesCities.json";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { FaMap, FaMoneyBill } from "react-icons/fa";
 import { FaLocationPin, FaMapLocation } from "react-icons/fa6";
+
+import locationJson from "@/lib/statesCities.json";
+
 const INIT = {
   landmark: "",
   address: "",
@@ -25,7 +29,8 @@ const INIT = {
   deliveryCharge: 0,
 };
 
-export default function EditAddress({ params }: { params: { id: string } }) {
+export default function EditAddressPage({ params }: { params: { id: string } }) {
+  const router = useRouter()
   const location: LocationType = locationJson;
 
   const [formData, setFormData] = useState(INIT);
@@ -43,7 +48,7 @@ export default function EditAddress({ params }: { params: { id: string } }) {
     },
   ] = useUpdateAddressMutation();
 
-  const { data: addressData, isSuccess: getAddressDataSuccess } =
+  const { data: addressData, isSuccess: getAddressDataSuccess, refetch: refetchGetAddressData } =
     useGetAddressQuery(params.id);
 
   const handleUpdateAddress = async (e: React.FormEvent) => {
@@ -59,7 +64,7 @@ export default function EditAddress({ params }: { params: { id: string } }) {
     if (isUpdateAddressSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isUpdateAddressError, isUpdateAddressSuccess]);
+  }, [isUpdateAddressError, isUpdateAddressSuccess, updateAddressError]);
 
   useEffect(() => {
     if (getAddressDataSuccess) {
@@ -75,7 +80,13 @@ export default function EditAddress({ params }: { params: { id: string } }) {
         address,
       });
     }
-  }, [getAddressDataSuccess]);
+  }, [getAddressDataSuccess, updateAddressError, addressData]);
+
+  useEffect(()=> {
+    if(isUpdateAddressSuccess){
+      router.push("/addresses")
+    }
+  },[isUpdateAddressSuccess, router])
 
   const getAllStates = () => {
     return Object.keys(location).map((state) => {

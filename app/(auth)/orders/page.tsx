@@ -1,19 +1,21 @@
 "use client";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+
 import { useGetAllOrdersQuery } from "@/app/_global-redux/services/order-api";
-import Filter from "@/components/core/Filter";
-import OrderCard from "@/components/core/OrderCard";
-import PaginationComponent from "@/components/core/Pagination";
+
+import { FaSearch } from "react-icons/fa";
+import Loader from "@/components/ui/loader";
 import { Button } from "@/components/ui/button";
+import OrderCard from "@/components/core/OrderCard";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import Loading from "../loading";
 
-export default function Orders() {
+import PaginationComponent from "@/components/core/Pagination";
+
+export default function OrdersPage() {
   const pathname = usePathname();
   const router = useRouter()
   const searchParams = useSearchParams();
@@ -33,11 +35,16 @@ export default function Orders() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    router.push(`${pathname}?page=${newPage}&limit=${limit}`);
   };
 
+
+  useEffect(() => {
+  router.push(`${pathname}?page=${page}&limit=${limit}`);
+
+  }, [page, pathname, router]);
+
   if (ordersFetching || ordersLoading) {
-    return <Loading />;
+    return <Loader />;
   }
 
   return (

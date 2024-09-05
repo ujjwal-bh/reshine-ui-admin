@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { User, UserCircle } from "lucide-react";
 
 interface IProps {
   isAuthenticated: boolean;
@@ -32,7 +33,10 @@ export default function Header({ isAuthenticated, name }: IProps) {
           </div>
         )}
         {isAuthenticated && name &&  (
-          <div className="flex capitalize lg:hidden">{name}</div>
+          <div className="flex items-center gap-2 capitalize lg:hidden">
+            <UserCircle/>
+            <span>{name}</span>
+          </div>
         )}
       </header>
       {isAuthenticated && <Sidebar active={active} setActive={setActive} />}

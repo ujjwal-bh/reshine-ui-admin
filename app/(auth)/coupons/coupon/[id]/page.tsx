@@ -1,19 +1,19 @@
-
 "use client";
-import { useCreateCouponMutation, useGetCouponQuery, useUpdateCouponMutation } from "@/app/_global-redux/services/coupon-api";
+import React, { useEffect, useState } from "react";
+import { useGetCouponQuery, useUpdateCouponMutation } from "@/app/_global-redux/services/coupon-api";
+
+import { RATE_TYPE } from "@/lib/constants";
+import { ApiError } from "@/interfaces/api-error.interface";
+
+import toast from "react-hot-toast";
 import Back from "@/components/ui/Back";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/ui/datePicker";
 import { InputWithIcon } from "@/components/ui/input";
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { Textarea } from "@/components/ui/textarea";
-import { ApiError } from "@/interfaces/api-error.interface";
-import { RATE_TYPE } from "@/lib/constants";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaCode, FaMoneyBill, FaTextHeight } from "react-icons/fa";
 
 const INIT = {
@@ -24,8 +24,7 @@ const INIT = {
 
 };
 
-export default function AddCoupon({params}: {params: {id: string}}) {
-  const router  = useRouter()
+export default function EditCouponPage({params}: {params: {id: string}}) {
   const [formData, setFormData] = useState(INIT);
 
   const {data: couponData, isSuccess: getCouponSuccess} = useGetCouponQuery(params.id)
@@ -48,23 +47,24 @@ export default function AddCoupon({params}: {params: {id: string}}) {
     if (isSuccess) {
       toast.success("Operation Successful");
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, error]);
 
 
   useEffect(()=> {
       if(getCouponSuccess){
+        const {title, description, code, discount, discountType, expiry} = couponData;
         setFormData(
           {
-            title: couponData?.title || "",
-            description: couponData?.description || "",
-            code: couponData?.code || "",
-            discount: couponData.discount || 0,
+            title,
+            description,
+            code,
+            discount,
           }
         )
-        setDiscountType(couponData?.discountType || "")
-        setExpiry(new Date(couponData?.expiry))
+        setDiscountType(discountType || "")
+        setExpiry(new Date(expiry))
       }
-  },[getCouponSuccess])
+  },[getCouponSuccess, couponData])
 
   
 

@@ -2,20 +2,6 @@
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import SelectWithSearch from "@/components/ui/SelectWithSearch";
-import { Button, ButtonWithPopup } from "@/components/ui/button";
-import { InputWithIcon } from "@/components/ui/input";
-import MainWarapper from "@/components/ui/mainWarapper";
-import SectionTitle from "@/components/ui/sectionTitle";
-import { Textarea } from "@/components/ui/textarea";
-import { FaMoneyBill, FaSearch } from "react-icons/fa";
-import Filter from "@/components/core/Filter";
-import MiniCard from "@/components/ui/MiniCard";
-import Back from "@/components/ui/Back";
-import toast from "react-hot-toast";
-
-import { IClothes } from "@/interfaces/clothes.interface";
-
 import { useGetAllClothesQuery } from "@/app/_global-redux/services/clothes-api";
 import {
   useCreateClothServicePricingMutation,
@@ -24,9 +10,21 @@ import {
   useGetServiceQuery,
   useUpdateServiceMutation,
 } from "@/app/_global-redux/services/laundry-service-api";
+import { IClothes } from "@/interfaces/clothes.interface";
+
+import toast from "react-hot-toast";
+import Back from "@/components/ui/Back";
+import { Textarea } from "@/components/ui/textarea";
+import { InputWithIcon } from "@/components/ui/input";
+import { FaMoneyBill, FaSearch } from "react-icons/fa";
+import MainWarapper from "@/components/ui/mainWarapper";
+import SectionTitle from "@/components/ui/sectionTitle";
+import SelectWithSearch from "@/components/ui/SelectWithSearch";
+import { Button, ButtonWithPopup } from "@/components/ui/button";
+
 import ClothServicePricingCard from "@/components/core/services/ClothServicePricingCard";
 
-export default function page({ params }: { params: { id: string } }) {
+export default function EditWashTypePage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [cloth, setCloth] = useState("");
   const [price, setPrice] = useState<number>(0);
@@ -94,12 +92,13 @@ export default function page({ params }: { params: { id: string } }) {
   };
   useEffect(() => {
     if (serviceSuccess) {
+      const {name, description} = serviceData
       setData({
-        name: serviceData?.name,
-        description: serviceData?.description || "",
+        name,
+        description: description || "",
       });
     }
-  }, [serviceSuccess]);
+  }, [serviceSuccess, serviceData]);
 
   useEffect(() => {
     if (updateServiceError) {
@@ -118,7 +117,7 @@ export default function page({ params }: { params: { id: string } }) {
       toast.success("Operation successful.");
       router.push("/services");
     }
-  }, [deleteServiceError, deleteServiceSuccess]);
+  }, [deleteServiceError, deleteServiceSuccess, router]);
 
   useEffect(() => {
     if (createClothServicePricingError) {
