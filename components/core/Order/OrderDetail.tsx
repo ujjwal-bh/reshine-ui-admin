@@ -72,7 +72,7 @@ const OrderDetail = ({
           <span>Rs {subTotalOfClothes}</span>
         </div>
         <div className="flex justify-between gap-2 px-4">
-          <span>Service charge {serviceTypeData?.name}</span>
+          <span>Service charge ({serviceTypeData?.rateType === "fixed" && "Rs"} {serviceTypeData?.rate}{serviceTypeData?.rateType === "percentage" && "%"})</span>
           <span>Rs {serviceTypeCost}</span>
         </div>
         <div className="flex justify-between gap-2 px-4 pt-4">

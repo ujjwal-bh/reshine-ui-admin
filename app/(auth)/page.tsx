@@ -10,7 +10,7 @@ import {
 import MainWarapper from "@/components/ui/mainWarapper";
 import SectionTitle from "@/components/ui/sectionTitle";
 import { orderDetailDummyData } from "@/lib/utils";
-import { useGetAllOrdersQuery } from "../_global-redux/services/order-api";
+import { useGetAllOrdersQuery, useGetOrderSummaryQuery } from "../_global-redux/services/order-api";
 import Loader from "@/components/ui/loader";
 
 export default function Home() {
@@ -20,15 +20,17 @@ export default function Home() {
     isFetching: getAllOrdersFetching,
   } = useGetAllOrdersQuery({ page: 1, limit: 10 });
 
+  const {data: orderSummaryData} = useGetOrderSummaryQuery()
+
   if (getAllOrdersFetching || getAllOrdersLoading) return <Loader />;
   return (
     <MainWarapper>
       <div className="flex gap-4 overflow-x-scroll no-scrollbar">
-        <DataCard data={256} title="Orders till now" />
-        <DataCard data={213} title="Orders Completed" />
-        <DataCard data={30} title="Orders Received today" />
-        <DataCard data={43} title="Pending Orders" />
-        <DataCard data={97} title="Users" />
+        <DataCard data={orderSummaryData?.totalOrders || 0} title="Orders till now" />
+        <DataCard data={orderSummaryData?.completed || 0} title="Orders Completed" />
+        <DataCard data={orderSummaryData?.orderCountToday || 0} title="Orders Received today" />
+        <DataCard data={orderSummaryData?.pending || 0} title="Pending Orders" />
+        <DataCard data={orderSummaryData?.users || 0} title="Users" />
       </div>
       <div className="flex flex-col gap-2">
         <SectionTitle>Recent Orders</SectionTitle>

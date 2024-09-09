@@ -25,6 +25,7 @@ import SelectWithSearch from "@/components/ui/SelectWithSearch";
 import Cloth from "@/components/core/Order/Cloth";
 import OrderDetail from "@/components/core/Order/OrderDetail";
 import AddCloth from "@/components/core/Order/AddCloth";
+import { useRouter } from "next/navigation";
 
 export interface ISelectedClothServicePricing {
   clothId: string;
@@ -35,6 +36,7 @@ export interface ISelectedClothServicePricing {
   price: number;
 }
 export default function AddOrderPage() {
+  const router = useRouter()
   const [user, setUser] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   // const [pickupDate, setPickupDate] = useState<Date>();
@@ -127,8 +129,11 @@ export default function AddOrderPage() {
   useEffect(() => {
     if (createOrderSuccess) {
       toast.success("Operation Successful");
+      router.push("/orders")
+    } else if(createOrderError){
+      toast.error("Couldn't place order")
     }
-  }, [createOrderSuccess]);
+  }, [createOrderSuccess, createOrderError]);
 
   return (
     <MainWarapper>
