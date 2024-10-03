@@ -47,6 +47,9 @@ export default function OrdersPage() {
     return <Loader />;
   }
 
+
+  console.log(ordersData, "data")
+
   return (
     <MainWarapper>
       <div className="flex justify-between gap-2 items-center lg:flex-col lg:items-start">

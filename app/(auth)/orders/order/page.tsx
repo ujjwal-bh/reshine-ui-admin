@@ -26,6 +26,9 @@ import Cloth from "@/components/core/Order/Cloth";
 import OrderDetail from "@/components/core/Order/OrderDetail";
 import AddCloth from "@/components/core/Order/AddCloth";
 import { useRouter } from "next/navigation";
+import { ApiError } from "@/interfaces/api-error.interface";
+import { InputWithIcon } from "@/components/ui/input";
+import { ICreateOrder } from "@/interfaces/order.interface";
 
 export interface ISelectedClothServicePricing {
   clothId: string;
@@ -39,7 +42,7 @@ export default function AddOrderPage() {
   const router = useRouter()
   const [user, setUser] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
-  // const [pickupDate, setPickupDate] = useState<Date>();
+  const [coupon, setCoupon] = useState<string>("");
   const [serviceType, setServiceType] = useState("");
   const [washType, setWashType] = useState("");
   const [selectedClothesServicePricing, setSelectedClothesServicePricing] =
@@ -74,8 +77,9 @@ export default function AddOrderPage() {
     createOrder,
     {
       isSuccess: createOrderSuccess,
-      isError: createOrderError,
+      isError: isCreateOrderError,
       isLoading: createOrderLoading,
+      error: createOrderError
     },
   ] = useCreateOrderMutation();
 
@@ -118,22 +122,26 @@ export default function AddOrderPage() {
       return { clothServicePrice: item.servicePricingId, quantity: item.count };
     });
 
-    await createOrder({
+    let createrOrderData: ICreateOrder = {
       address: pickupAddress,
       user,
       serviceType,
       items: orderItems,
-    });
+    }
+    if(coupon.length > 0) createrOrderData.coupon = coupon
+
+   
+    await createOrder(createrOrderData);
   };
 
   useEffect(() => {
     if (createOrderSuccess) {
       toast.success("Operation Successful");
       router.push("/orders")
-    } else if(createOrderError){
-      toast.error("Couldn't place order")
+    } else if(isCreateOrderError){
+      toast.error(`Couldn't place order ${(createOrderError as ApiError).data.message}` )
     }
-  }, [createOrderSuccess, createOrderError]);
+  }, [createOrderSuccess, isCreateOrderError]);
 
   return (
     <MainWarapper>
@@ -188,7 +196,14 @@ export default function AddOrderPage() {
                 placeholder="select Wash type"
               />
             </div>
-            <div className="flex w-[50%] flex-col gap-2 lg:w-full"></div>
+            <div className="flex w-[50%] flex-col gap-2 lg:w-full">
+            <h1>Coupon Code (if Available) </h1>
+              <InputWithIcon
+                placeholder="e.g EXT200"
+                value={coupon}
+                onChange={(e)=> setCoupon(e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <h1>Clothes</h1>
@@ -242,6 +257,7 @@ export default function AddOrderPage() {
           className="min-w-[15rem] lg:w-full"
           type="submit"
           onClick={handleSubmitOrder}
+          disabled={createOrderLoading}
         >
           Complete Order
         </Button>

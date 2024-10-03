@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReauth } from "./base-query";
-import { IOrderInfo, IOrderInOrders, IOrders } from "@/interfaces/order.interface";
+import { ICreateOrder, IOrderInfo, IOrderInOrders, IOrders } from "@/interfaces/order.interface";
 
 // Define a service using a base URL and expected endpoints
 export const orderApi = createApi({
@@ -21,7 +21,7 @@ export const orderApi = createApi({
     getOrderSummary: builder.query<IOrderInfo, void>({
       query: () => `admin/orders/info`,
     }),
-    createOrder: builder.mutation<any, any>({
+    createOrder: builder.mutation<ICreateOrder, any>({
       query: (body) => ({
         url: "admin/orders",
         method: "POST",

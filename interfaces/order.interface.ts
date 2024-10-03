@@ -101,3 +101,13 @@ interface IOrderItemsInfo {
   };
   id: string;
 }
+
+
+
+export interface ICreateOrder{
+  address: string,
+  user: string,
+  serviceType: string,
+  items: any[],
+  coupon?: string
+}
